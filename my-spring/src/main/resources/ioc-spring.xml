@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="com.example.yq.bean.UserService" id="userService" init-method="initMethod"
+		  destroy-method="destroyMethod" name="yqService,yqService2,yqService3">
+		<constructor-arg index="0" value="yangqiang"/>
+
+	</bean>
+	<bean class="com.example.yq.beanfactory.MyBeanFactoryPostProcessor" id="myBeanFactoryPostProcessor" />
+	<bean class="com.example.yq.beanfactory.MyBeanFactoryPostProcessorTwo" id="myBeanFactoryPostProcessorTwo"/>
+</beans>
