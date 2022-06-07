@@ -18,4 +18,6 @@
 	<bean class="com.example.yq.initbean.InitBean" id="initBean"/>
 	<bean class="com.example.yq.multicaster.listener.MyApplicationListener" id="myApplicationListener"/>
 
+	<bean class="com.example.yq.factorybean.MyFactoryBean" id="myFactoryBean"/>
+
 </beans>
