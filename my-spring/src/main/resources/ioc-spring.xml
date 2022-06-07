@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:conntext="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <conntext:component-scan base-package="com.example.yq.messagesource"/>
 	<bean class="com.example.yq.bean.UserService" id="userService" init-method="initMethod"
 		  destroy-method="destroyMethod" name="yqService,yqService2,yqService3">
 		<constructor-arg index="0" value="yangqiang"/>
@@ -9,4 +15,7 @@
 	</bean>
 	<bean class="com.example.yq.beanfactory.MyBeanFactoryPostProcessor" id="myBeanFactoryPostProcessor" />
 	<bean class="com.example.yq.beanfactory.MyBeanFactoryPostProcessorTwo" id="myBeanFactoryPostProcessorTwo"/>
+	<bean class="com.example.yq.initbean.InitBean" id="initBean"/>
+	<bean class="com.example.yq.multicaster.listener.MyApplicationListener" id="myApplicationListener"/>
+
 </beans>
