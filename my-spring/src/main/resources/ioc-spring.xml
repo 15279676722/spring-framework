@@ -8,16 +8,21 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
     <conntext:component-scan base-package="com.example.yq.messagesource"/>
-	<bean class="com.example.yq.bean.UserService" id="userService" init-method="initMethod"
-		  destroy-method="destroyMethod" name="yqService,yqService2,yqService3">
-		<constructor-arg index="0" value="yangqiang"/>
+<!--	<bean class="com.example.yq.bean.UserService" id="userService" init-method="initMethod"-->
+<!--		  destroy-method="destroyMethod" name="yqService,yqService2,yqService3"  depends-on="myFactoryBean">-->
+<!--		<constructor-arg index="0" value="yangqiang"/>-->
 
+<!--	</bean>-->
+<!--	<bean class="com.example.yq.beanfactory.MyBeanFactoryPostProcessor" id="myBeanFactoryPostProcessor" />-->
+<!--	<bean class="com.example.yq.beanfactory.MyBeanFactoryPostProcessorTwo" id="myBeanFactoryPostProcessorTwo"/>-->
+<!--	<bean class="com.example.yq.initbean.InitBean" id="initBean"/>-->
+<!--	<bean class="com.example.yq.multicaster.listener.MyApplicationListener" id="myApplicationListener"/>-->
+
+<!--	<bean class="com.example.yq.factorybean.MyFactoryBean" id="myFactoryBean"/>-->
+
+	<bean class="com.example.yq.lookup.Cat" id="cat"/>
+	<bean class="com.example.yq.lookup.Dog" id="dog" />
+	<bean class="com.example.yq.lookup.Animal" id="animal">
+		<lookup-method name="eat" bean="dog"/>
 	</bean>
-	<bean class="com.example.yq.beanfactory.MyBeanFactoryPostProcessor" id="myBeanFactoryPostProcessor" />
-	<bean class="com.example.yq.beanfactory.MyBeanFactoryPostProcessorTwo" id="myBeanFactoryPostProcessorTwo"/>
-	<bean class="com.example.yq.initbean.InitBean" id="initBean"/>
-	<bean class="com.example.yq.multicaster.listener.MyApplicationListener" id="myApplicationListener"/>
-
-	<bean class="com.example.yq.factorybean.MyFactoryBean" id="myFactoryBean"/>
-
 </beans>

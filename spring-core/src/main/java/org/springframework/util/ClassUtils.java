@@ -281,6 +281,7 @@ public abstract class ClassUtils {
 			clToUse = getDefaultClassLoader();
 		}
 		try {
+			//通过反射创建一个bean对象
 			return Class.forName(name, false, clToUse);
 		}
 		catch (ClassNotFoundException ex) {

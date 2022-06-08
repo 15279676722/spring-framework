@@ -262,17 +262,21 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 		else {
 			// Fail if we're already creating this bean instance:
-			// We're assumably within a circular reference.
+			// We're assumably within a circular reference. 我们大概在一个循环引用中
+			// 防止循环引用
 			if (isPrototypeCurrentlyInCreation(beanName)) {
 				throw new BeanCurrentlyInCreationException(beanName);
 			}
 
 			// Check if bean definition exists in this factory.
+			// 检查一下这个BeanDefinition是否在 beanFactory中存在  或者在 父工厂中存在
 			BeanFactory parentBeanFactory = getParentBeanFactory();
 			if (parentBeanFactory != null && !containsBeanDefinition(beanName)) {
 				// Not found -> check parent.
+				// 如果当前容器不存在这个 BeanDefinition，试试父容器中有没有
 				String nameToLookup = originalBeanName(name);
 				if (parentBeanFactory instanceof AbstractBeanFactory abf) {
+					// 返回父容器的查询结果
 					return abf.doGetBean(nameToLookup, requiredType, args, typeCheckOnly);
 				}
 				else if (args != null) {
@@ -289,6 +293,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 
 			if (!typeCheckOnly) {
+				// typeCheckOnly 为 false，将当前 beanName 放入一个 alreadyCreated 的 Set 集合中。
 				markBeanAsCreated(beanName);
 			}
 
@@ -298,10 +303,19 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				if (requiredType != null) {
 					beanCreation.tag("beanType", requiredType::toString);
 				}
+
+				/*
+				 * 稍稍总结一下：
+				 * 到这里的话，要准备创建 Bean 了，对于 singleton 的 Bean 来说，容器中还没创建过此 Bean；
+				 * 对于 prototype 的 Bean 来说，本来就是要创建一个新的 Bean。
+				 */
 				RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
+				// 校验beanDefinition是不是抽象bean 是的话报错
 				checkMergedBeanDefinition(mbd, beanName, args);
 
 				// Guarantee initialization of beans that the current bean depends on.
+				// 先初始化依赖的所有 Bean，这个很好理解。
+				// 注意，这里的依赖指的是 depends-on 中定义的依赖
 				String[] dependsOn = mbd.getDependsOn();
 				if (dependsOn != null) {
 					for (String dep : dependsOn) {
@@ -309,8 +323,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 							throw new BeanCreationException(mbd.getResourceDescription(), beanName,
 									"Circular depends-on relationship between '" + beanName + "' and '" + dep + "'");
 						}
+						// 注册一下依赖关系
 						registerDependentBean(dep, beanName);
 						try {
+							// 先初始化被依赖项
 							getBean(dep);
 						}
 						catch (NoSuchBeanDefinitionException ex) {
@@ -321,6 +337,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 
 				// Create bean instance.
+				// 创建单例bean
 				if (mbd.isSingleton()) {
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
