@@ -13,16 +13,22 @@
 <!--		<constructor-arg index="0" value="yangqiang"/>-->
 
 <!--	</bean>-->
-<!--	<bean class="com.example.yq.beanfactory.MyBeanFactoryPostProcessor" id="myBeanFactoryPostProcessor" />-->
-<!--	<bean class="com.example.yq.beanfactory.MyBeanFactoryPostProcessorTwo" id="myBeanFactoryPostProcessorTwo"/>-->
-<!--	<bean class="com.example.yq.initbean.InitBean" id="initBean"/>-->
-<!--	<bean class="com.example.yq.multicaster.listener.MyApplicationListener" id="myApplicationListener"/>-->
+	<bean class="com.example.yq.beanfactory.MyBeanFactoryPostProcessor" id="myBeanFactoryPostProcessor" />
+	<bean class="com.example.yq.beanfactory.MyBeanFactoryPostProcessorTwo" id="myBeanFactoryPostProcessorTwo"/>
+	<bean class="com.example.yq.initbean.InitBean" id="initBean"/>
+	<bean class="com.example.yq.multicaster.listener.MyApplicationListener" id="myApplicationListener"/>
 
-<!--	<bean class="com.example.yq.factorybean.MyFactoryBean" id="myFactoryBean"/>-->
+	<bean class="com.example.yq.factorybean.MyFactoryBean" id="myFactoryBean"/>
 
-	<bean class="com.example.yq.lookup.Cat" id="cat"/>
-	<bean class="com.example.yq.lookup.Dog" id="dog" />
-	<bean class="com.example.yq.lookup.Animal" id="animal">
-		<lookup-method name="eat" bean="dog"/>
+	<bean class="com.example.yq.lookup.xml.Cat" id="cat"/>
+	<bean class="com.example.yq.lookup.xml.Dog" id="dog" />
+	<bean class="com.example.yq.lookup.xml.Animal" id="animal">
+		<lookup-method name="getAnimal" bean="dog"/>
 	</bean>
+
+	<bean class="com.example.yq.lookup.annotation.Apple" id="apple"/>
+	<bean class="com.example.yq.lookup.annotation.Banana" id="banana"/>
+	<bean class="com.example.yq.lookup.annotation.Fruit" id="fruit">
+	</bean>
+
 </beans>

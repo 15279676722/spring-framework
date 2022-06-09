@@ -27,13 +27,13 @@ public class InitBean implements InitializingBean, BeanPostProcessor {
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		System.out.println("BeanPostProcessor Before");
+		System.out.println("beanName = " + beanName + "  Before");
 		return bean;
 	}
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		System.out.println("BeanPostProcessor After");
+		System.out.println("beanName = " + beanName + "  After");
 		return bean;
 	}
 
