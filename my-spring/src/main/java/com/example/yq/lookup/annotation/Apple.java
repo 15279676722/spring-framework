@@ -5,8 +5,7 @@ package com.example.yq.lookup.annotation;
  * @create 2022-06-09 14:49
  */
 public class Apple extends Fruit{
-	@Override
-	void type() {
+	public void type() {
 		System.out.println("我是apple");
 	}
 }

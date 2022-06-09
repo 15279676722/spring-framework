@@ -5,12 +5,19 @@ package com.example.yq.lookup.xml;
  * @create 2022-06-08 21:55
  */
 public abstract class Animal {
-	void eat(){
+	void eat() {
+	};
 
-	  };
-     abstract Animal getAnimal();
-     public void print(){
-		 Animal animal = getAnimal();
-		 animal.eat();
-	 }
+	/**
+	 * 在xml中通过 <lookup-method/> 标签进行配置 把bean dog 注入进来
+	 * 使得调用getAnimal方法的时候会默认返回一个 dog对象
+	 */
+	Animal getAnimal() {
+		return null;
+	};
+
+	public void print() {
+		Animal animal = getAnimal();
+		animal.eat();
+	}
 }

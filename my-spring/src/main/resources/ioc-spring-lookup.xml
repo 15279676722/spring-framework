@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:conntext="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+	<bean class="com.example.yq.lookup.xml.Cat" id="cat" init-method="initMethod" destroy-method="destroyMethod"/>
+	<bean class="com.example.yq.lookup.xml.Dog" id="dog" />
+	<bean class="com.example.yq.lookup.xml.Animal" id="animal">
+		<lookup-method name="getAnimal" bean="dog"/>
+	</bean>
+
+	<bean class="com.example.yq.lookup.annotation.Apple" id="apple"/>
+	<bean class="com.example.yq.lookup.annotation.Banana" id="banana"/>
+	<bean class="com.example.yq.lookup.annotation.Fruit" id="fruit"/>
+
+	<bean class="com.example.yq.initbean.InitBean" id="initBean" init-method="initMethod" destroy-method="destroyMethod"/>
+
+</beans>

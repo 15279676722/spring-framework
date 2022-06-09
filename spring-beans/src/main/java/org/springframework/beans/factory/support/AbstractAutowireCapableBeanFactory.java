@@ -1206,6 +1206,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		// No special handling: simply use no-arg constructor.
+		// 调用无参构造函数
 		return instantiateBean(beanName, mbd);
 	}
 

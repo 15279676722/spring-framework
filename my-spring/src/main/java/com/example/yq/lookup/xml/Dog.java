@@ -9,9 +9,4 @@ public class Dog extends Animal{
 	void eat() {
 		System.out.println("狗吃猫");
 	}
-
-	@Override
-	Animal getAnimal() {
-		return this;
-	}
 }
