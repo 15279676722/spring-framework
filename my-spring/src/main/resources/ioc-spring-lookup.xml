@@ -17,8 +17,14 @@
 
 	<bean class="com.example.yq.lookup.annotation.Apple" id="apple"/>
 	<bean class="com.example.yq.lookup.annotation.Banana" id="banana"/>
-	<bean class="com.example.yq.lookup.annotation.Fruit" id="fruit"/>
 
-	<bean class="com.example.yq.initbean.InitBean" id="initBean" init-method="initMethod" destroy-method="destroyMethod"/>
+	<bean class="com.example.yq.lookup.annotation.LookUpBean" id="lookUpBean">
+		<constructor-arg name="name" value="banana" />
+		<constructor-arg name="id" value="1"/>
+	</bean>
+
+	<bean class="com.example.yq.initbean.InitBean" id="initBean" init-method="initMethod" destroy-method="destroyMethod">
+         <constructor-arg name="name" value="initBean"/>
+	</bean>
 
 </beans>

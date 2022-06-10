@@ -126,38 +126,58 @@ class ConstructorResolver {
 			@Nullable Constructor<?>[] chosenCtors, @Nullable Object[] explicitArgs) {
 
 		BeanWrapperImpl bw = new BeanWrapperImpl();
+
+		/*
+		这里的beanFactory是初始化ConstructorResolver构造器的时候在
+		AbstractAutowireCapableBeanFactory类的autowireConstructor
+		方法中传进来的就是AbstractAutowireCapableBeanFactory
+		 */
+
+
 		this.beanFactory.initBeanWrapper(bw);
 
 		Constructor<?> constructorToUse = null;
 		ArgumentsHolder argsHolderToUse = null;
 		Object[] argsToUse = null;
-
+		//如果构造参数不为空就直接使用
 		if (explicitArgs != null) {
 			argsToUse = explicitArgs;
 		}
 		else {
 			Object[] argsToResolve = null;
 			synchronized (mbd.constructorArgumentLock) {
+				//获取已缓存解析的构造函数或工厂方法
+				// （resolvedConstructorOrFactoryMethod----用于缓存已解析的构造函数或工厂方法）
 				constructorToUse = (Constructor<?>) mbd.resolvedConstructorOrFactoryMethod;
 				if (constructorToUse != null && mbd.constructorArgumentsResolved) {
 					// Found a cached constructor...
+					//获取缓存的构造函数（resolvedConstructorArguments
+					//---用于缓存完全解析的构造函数参数的包可见字段）
 					argsToUse = mbd.resolvedConstructorArguments;
 					if (argsToUse == null) {
+						//如果获取到的缓存的构造参数是空，
+						//就获取缓存的部分准备的构造函数参数（preparedConstructorArguments
+						//---用于缓存部分准备的构造函数参数的包可见字段）
 						argsToResolve = mbd.preparedConstructorArguments;
 					}
 				}
 			}
+			//如果缓存的参数不是空，就进行解析，解析时会对
+			//argsToResolve中的每个的类型进行转化，也是一个复杂的逻辑
 			if (argsToResolve != null) {
 				argsToUse = resolvePreparedArguments(beanName, mbd, bw, constructorToUse, argsToResolve);
 			}
 		}
-
+		//如果缓存的构造器不存在，就说明没有bean进行过解析，需要去关联对应的bean的构造器
 		if (constructorToUse == null || argsToUse == null) {
 			// Take specified constructors, if any.
+			//如果传入的构造器为空，则获取bean的Class对象，
+			//然后根据bean是不是public修饰的来按照不同的方式获取所有的构造器
 			Constructor<?>[] candidates = chosenCtors;
 			if (candidates == null) {
 				Class<?> beanClass = mbd.getBeanClass();
 				try {
+					//（包括public和private修饰的），getConstructors返回public修饰的
 					candidates = (mbd.isNonPublicAccessAllowed() ?
 							beanClass.getDeclaredConstructors() : beanClass.getConstructors());
 				}

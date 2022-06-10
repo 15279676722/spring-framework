@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class InitBeanConfig {
 	@Bean(initMethod = "initMethod",destroyMethod = "destroyMethod")
 	public InitBean initBean(){
-		return new InitBean();
+		return new InitBean("yangqiang");
 	}
 
 	@Bean(initMethod = "initMethod",destroyMethod = "destroyMethod")

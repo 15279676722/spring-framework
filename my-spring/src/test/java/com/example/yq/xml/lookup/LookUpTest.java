@@ -2,6 +2,7 @@ package com.example.yq.xml.lookup;
 
 import com.example.yq.bean.UserService;
 import com.example.yq.lookup.annotation.Fruit;
+import com.example.yq.lookup.annotation.LookUpBean;
 import com.example.yq.lookup.xml.Animal;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
@@ -26,7 +27,7 @@ public class LookUpTest {
 	public void LookUpAnnotationBean(){
 		ApplicationContext context =
 				new ClassPathXmlApplicationContext("ioc-spring-lookup.xml");
-		Fruit fruit =(Fruit) context.getBean("fruit");
-		fruit.print();
+		LookUpBean lookUpBean =(LookUpBean) context.getBean("lookUpBean");
+		lookUpBean.print();
 	}
 }

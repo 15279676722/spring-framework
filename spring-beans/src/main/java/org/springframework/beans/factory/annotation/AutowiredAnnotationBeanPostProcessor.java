@@ -319,12 +319,19 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 			throws BeanCreationException {
 
 		// Let's check for lookup methods here...
+		/**
+		 * 处理含有@Lookup注解的方法
+		 * 如果集合中没有BeanName，则走一遍Bean中所有的方法，过滤是否含有Lookup方法
+		 */
 		if (!this.lookupMethodsChecked.contains(beanName)) {
+			// 判断该类是否有LookUp 注解
 			if (AnnotationUtils.isCandidateClass(beanClass, Lookup.class)) {
 				try {
 					Class<?> targetClass = beanClass;
 					do {
+						// 遍历该类下的所有方法 找不到再从父类找
 						ReflectionUtils.doWithLocalMethods(targetClass, method -> {
+							//找到带LookUp注解的方法
 							Lookup lookup = method.getAnnotation(Lookup.class);
 							if (lookup != null) {
 								Assert.state(this.beanFactory != null, "No BeanFactory available");
@@ -332,6 +339,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 								try {
 									RootBeanDefinition mbd = (RootBeanDefinition)
 											this.beanFactory.getMergedBeanDefinition(beanName);
+									// override 加入beanDefinition中
 									mbd.getMethodOverrides().addOverride(override);
 								}
 								catch (NoSuchBeanDefinitionException ex) {
@@ -349,10 +357,17 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 					throw new BeanCreationException(beanName, "Lookup method resolution failed", ex);
 				}
 			}
+			/**
+			 * 无论对象中是否含有@Lookup方法，过滤完成后都会放到集合中，证明此Bean已经检查完@Lookup注解了
+			 */
 			this.lookupMethodsChecked.add(beanName);
 		}
 
 		// Quick check on the concurrent map first, with minimal locking.
+		/**
+		 * 从缓存中拿构造函数，不存在的话就进入代码块中再拿一遍，还不存在的话就进行下方的逻辑
+		 * 双重检查
+		 */
 		Constructor<?>[] candidateConstructors = this.candidateConstructorsCache.get(beanClass);
 		if (candidateConstructors == null) {
 			// Fully synchronized resolution now...
@@ -361,6 +376,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 				if (candidateConstructors == null) {
 					Constructor<?>[] rawCandidates;
 					try {
+						//获取所有构造函数
 						rawCandidates = beanClass.getDeclaredConstructors();
 					}
 					catch (Throwable ex) {
@@ -368,10 +384,26 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 								"Resolution of declared constructors on bean Class [" + beanClass.getName() +
 								"] from ClassLoader [" + beanClass.getClassLoader() + "] failed", ex);
 					}
+					/**
+					 * 候选构造函数列表
+					 */
 					List<Constructor<?>> candidates = new ArrayList<>(rawCandidates.length);
+					/**
+					 * 用户指定的必须用的构造函数 包括 @Autowired修饰的构造函数
+					 */
 					Constructor<?> requiredConstructor = null;
+					/**
+					 * 默认用的构造函数
+					 * (其实就是无参构造)
+					 */
 					Constructor<?> defaultConstructor = null;
+					/**
+					 * 这个不知道什么鬼，看代码是只会在Kotlin语言中存在
+					 */
 					Constructor<?> primaryConstructor = BeanUtils.findPrimaryConstructor(beanClass);
+					/**
+					 * 构造方法数量计数
+					 */
 					int nonSyntheticConstructors = 0;
 					for (Constructor<?> candidate : rawCandidates) {
 						if (!candidate.isSynthetic()) {
@@ -380,8 +412,14 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 						else if (primaryConstructor != null) {
 							continue;
 						}
+						//找加了@Autowired的构造函数
 						MergedAnnotation<?> ann = findAutowiredAnnotation(candidate);
+						/**
+						 * 注解不存在,则再通过方法获取用户类，如果是用户类则返回用户类，还判断了CGLIB情况，
+						 * CGLIB情况则返回目标类，然后获取参数一致的构造函数再获取注解
+						 */
 						if (ann == null) {
+
 							Class<?> userClass = ClassUtils.getUserClass(beanClass);
 							if (userClass != beanClass) {
 								try {
@@ -417,8 +455,10 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 							defaultConstructor = candidate;
 						}
 					}
+					//如果候选构造函数不为空
 					if (!candidates.isEmpty()) {
 						// Add default constructor to list of optional constructors, as fallback.
+						// 将如果用户没有指定构造函数 将默认构造函数添加到可选构造函数列表中，作为后备。
 						if (requiredConstructor == null) {
 							if (defaultConstructor != null) {
 								candidates.add(defaultConstructor);
@@ -432,16 +472,30 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 						}
 						candidateConstructors = candidates.toArray(new Constructor<?>[0]);
 					}
+					/**
+					 * 如果只有一个构造函数，且参数个数大于0的。，那么就选用它
+					 */
 					else if (rawCandidates.length == 1 && rawCandidates[0].getParameterCount() > 0) {
 						candidateConstructors = new Constructor<?>[] {rawCandidates[0]};
 					}
+					/**
+					 * 如果有两个，然后primaryConstructor和defaultConstructor都不为null
+					 * 且两个不相等，则两个都作为返回值
+					 */
 					else if (nonSyntheticConstructors == 2 && primaryConstructor != null &&
 							defaultConstructor != null && !primaryConstructor.equals(defaultConstructor)) {
 						candidateConstructors = new Constructor<?>[] {primaryConstructor, defaultConstructor};
 					}
+					/**
+					 * 如果只有primaryConstructor，且primaryConstructor不为null，则使用他
+					 */
 					else if (nonSyntheticConstructors == 1 && primaryConstructor != null) {
 						candidateConstructors = new Constructor<?>[] {primaryConstructor};
 					}
+					/**
+					 * 啥都不满足就是没有
+					 * 即Spring会用他自己的默认的构造函数(其实就是无参构造)
+					 */
 					else {
 						candidateConstructors = new Constructor<?>[0];
 					}
