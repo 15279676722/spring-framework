@@ -12,6 +12,9 @@ repositories {
 dependencies {
     implementation(project(":spring-context"))
     implementation(project(":spring-beans"))
+    testImplementation("org.aspectj:aspectjweaver")
+    implementation("org.aspectj:aspectjweaver")
+
 
     implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'

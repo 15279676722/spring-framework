@@ -197,6 +197,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		//一级缓存中没有的话 有两种情况
 		// 1. 当前对象确实没有创建 所以拿不到 直接返回null
 		// 2. 当前对象正在创建 还没有放到以及缓存中 这时候可能出现循环依赖
+
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
 			// 对象正在创建 尝试从二级缓存里面去取
 			singletonObject = this.earlySingletonObjects.get(beanName);

@@ -184,6 +184,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 						parseDefaultElement(ele, delegate);
 					}
 					else {
+						//	<aop:aspectj-autoproxy/> 标签就是在这里解析的
 						delegate.parseCustomElement(ele);
 					}
 				}
