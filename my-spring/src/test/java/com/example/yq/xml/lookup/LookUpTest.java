@@ -1,9 +1,7 @@
 package com.example.yq.xml.lookup;
 
-import com.example.yq.bean.UserService;
-import com.example.yq.lookup.annotation.Fruit;
-import com.example.yq.lookup.annotation.LookUpBean;
-import com.example.yq.lookup.xml.Animal;
+import com.example.yq.ioc.lookup.annotation.LookUpBean;
+import com.example.yq.ioc.lookup.xml.Animal;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

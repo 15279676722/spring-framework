@@ -4,8 +4,8 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
-	<bean id="serviceA" class="com.example.yq.annotation.service.SetterBean$ServiceA"/>
-	<bean id="serviceB" class="com.example.yq.annotation.service.SetterBean$ServiceB" autowire-candidate="false"/>
+	<bean id="serviceA" class="com.example.yq.ioc.service.SetterBean$ServiceA"/>
+	<bean id="serviceB" class="com.example.yq.ioc.service.SetterBean$ServiceB" autowire-candidate="false"/>
 
-	<bean id="setterBean" class="com.example.yq.annotation.service.SetterBean" autowire="byName" />
+	<bean id="setterBean" class="com.example.yq.ioc.service.SetterBean" autowire="byName" />
 </beans>

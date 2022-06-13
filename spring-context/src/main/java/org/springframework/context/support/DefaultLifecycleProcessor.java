@@ -139,9 +139,11 @@ public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactor
 	// Internal helpers
 
 	private void startBeans(boolean autoStartupOnly) {
+		// 1.获取所有的Lifecycle bean
 		Map<String, Lifecycle> lifecycleBeans = getLifecycleBeans();
+		// 将Lifecycle bean 按阶段分组，阶段通过实现Phased接口得到
 		Map<Integer, LifecycleGroup> phases = new TreeMap<>();
-
+		// 2.遍历所有Lifecycle bean，按阶段值分组
 		lifecycleBeans.forEach((beanName, bean) -> {
 			if (!autoStartupOnly || (bean instanceof SmartLifecycle && ((SmartLifecycle) bean).isAutoStartup())) {
 				int phase = getPhase(bean);
@@ -151,7 +153,9 @@ public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactor
 				).add(beanName, bean);
 			}
 		});
+		// 4.如果phases不为空
 		if (!phases.isEmpty()) {
+			// 4.1 按阶段值顺序，调用LifecycleGroup中的所有Lifecycle的start方法
 			phases.values().forEach(LifecycleGroup::start);
 		}
 	}

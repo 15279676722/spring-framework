@@ -1,12 +1,10 @@
 package com.example.yq.xml.messageresource;
 
-import com.example.yq.bean.UserService;
-import com.example.yq.messagesource.MessageSourceConfig;
+import com.example.yq.ioc.messagesource.MessageSourceConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Locale;
 

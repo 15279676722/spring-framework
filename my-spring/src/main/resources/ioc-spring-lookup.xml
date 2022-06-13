@@ -9,21 +9,21 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 	<conntext:component-scan base-package="com.example.yq"/>
 
-	<bean class="com.example.yq.lookup.xml.Cat" id="cat" init-method="initMethod" destroy-method="destroyMethod"/>
-	<bean class="com.example.yq.lookup.xml.Dog" id="dog" />
-	<bean class="com.example.yq.lookup.xml.Animal" id="animal">
+	<bean class="com.example.yq.ioc.lookup.xml.Cat" id="cat" init-method="initMethod" destroy-method="destroyMethod"/>
+	<bean class="com.example.yq.ioc.lookup.xml.Dog" id="dog" />
+	<bean class="com.example.yq.ioc.lookup.xml.Animal" id="animal">
 		<lookup-method name="getAnimal" bean="dog"/>
 	</bean>
 
-	<bean class="com.example.yq.lookup.annotation.Apple" id="apple"/>
-	<bean class="com.example.yq.lookup.annotation.Banana" id="banana"/>
+	<bean class="com.example.yq.ioc.lookup.annotation.Apple" id="apple"/>
+	<bean class="com.example.yq.ioc.lookup.annotation.Banana" id="banana"/>
 
-	<bean class="com.example.yq.lookup.annotation.LookUpBean" id="lookUpBean">
+	<bean class="com.example.yq.ioc.lookup.annotation.LookUpBean" id="lookUpBean">
 		<constructor-arg name="name" value="banana" />
 		<constructor-arg name="id" value="1"/>
 	</bean>
 
-	<bean class="com.example.yq.initbean.InitBean" id="initBean" init-method="initMethod" destroy-method="destroyMethod">
+	<bean class="com.example.yq.ioc.initbean.InitBean" id="initBean" init-method="initMethod" destroy-method="destroyMethod">
          <constructor-arg name="name" value="initBean"/>
 	</bean>
 

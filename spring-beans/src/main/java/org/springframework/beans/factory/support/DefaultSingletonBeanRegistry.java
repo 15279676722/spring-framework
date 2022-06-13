@@ -196,7 +196,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		Object singletonObject = this.singletonObjects.get(beanName);
 		//一级缓存中没有的话 有两种情况
 		// 1. 当前对象确实没有创建 所以拿不到 直接返回null
-		// 2. 当前对象正在创建 还没有放到以及缓存中
+		// 2. 当前对象正在创建 还没有放到以及缓存中 这时候可能出现循环依赖
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
 			// 对象正在创建 尝试从二级缓存里面去取
 			singletonObject = this.earlySingletonObjects.get(beanName);
@@ -211,6 +211,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 						if (singletonObject == null) {
 							ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
 							if (singletonFactory != null) {
+								//从三级缓存bean工厂中拿到bean对象并删除  加入到二级缓存
 								singletonObject = singletonFactory.getObject();
 								this.earlySingletonObjects.put(beanName, singletonObject);
 								this.singletonFactories.remove(beanName);
@@ -278,7 +279,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 						this.suppressedExceptions = null;
 					}
 					afterSingletonCreation(beanName);
-				}
+				}//将已经实例化 并且初始化好的bean对象加入到一级缓存中 并从二三级缓存中删除
 				if (newSingleton) {
 					addSingleton(beanName, singletonObject);
 				}
