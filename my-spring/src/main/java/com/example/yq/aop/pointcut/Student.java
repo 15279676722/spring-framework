@@ -12,5 +12,6 @@ public class Student implements Person{
 		System.out.println("这是一个苦逼的程序员");
 	}
 
-
+    @Autowired
+	private StudentB studentB;
 }

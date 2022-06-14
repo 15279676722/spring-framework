@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:conntext="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- 通过工厂静态无参方法创建bean对象 -->
+	<bean id="createBeanByStaticFactoryMethod1" class="com.example.yq.ioc.bean.staticfactory.UserStaticFactory"
+		  factory-method="buildUser1"/>
+	<!-- 通过工厂静态有参方法创建bean对象 -->
+	<bean id="createBeanByStaticFactoryMethod2" class="com.example.yq.ioc.bean.staticfactory.UserStaticFactory"
+		  factory-method="buildUser2">
+		<constructor-arg index="0" value="通过工厂静态有参方法创建UerModel实例对象"/>
+		<constructor-arg index="1" value="30"/>
+	</bean>
+
+</beans>
