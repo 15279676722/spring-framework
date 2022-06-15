@@ -4,6 +4,9 @@ import com.example.yq.ioc.bean.constructor.UserModel;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.lang.Nullable;
 
+/**
+ * FactoryBean的创建也会执行对应的后置处理
+ * */
 public class UserFactoryBean implements FactoryBean<UserModel> {
     int count = 1;
     @Nullable
