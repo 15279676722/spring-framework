@@ -8,14 +8,11 @@
            http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
-	<!-- 定义一个工厂实例 -->
-	<bean id="userFactory" class="com.example.yq.ioc.bean.examplefactory.UserFactory"/>
-	<!-- 通过userFactory实例的无参user方法创建UserModel对象 -->
-	<bean id="createBeanByBeanMethod1" factory-bean="userFactory" factory-method="buildUser1"/>
-
-	<!-- 通过userFactory实例的有参user方法创建UserModel对象 -->
-	<bean id="createBeanByBeanMethod2" factory-bean="userFactory" factory-method="buildUser2">
-		<constructor-arg index="0" value="通过bean实例有参方法创建UserModel实例对象"/>
+	<!-- 通过UserModel的默认构造方法创建UserModel对象 -->
+	<bean id="createBeanByConstructor1" class="com.example.yq.ioc.bean.constructor.UserModel"/>
+	<!-- 通过UserModel有参构造方法创建UserModel对象 -->
+	<bean id="createBeanByConstructor2" class="com.example.yq.ioc.bean.constructor.UserModel">
+		<constructor-arg index="0" value="我是通过UserModel的有参方法构造的对象!"/>
 		<constructor-arg index="1" value="30"/>
 	</bean>
 
