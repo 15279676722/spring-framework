@@ -164,16 +164,24 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	/** Map from bean name to merged BeanDefinitionHolder. */
 	private final Map<String, BeanDefinitionHolder> mergedBeanDefinitionHolders = new ConcurrentHashMap<>(256);
 
-	/** Map of singleton and non-singleton bean names, keyed by dependency type. */
+	/** Map of singleton and non-singleton bean names, keyed by dependency type.
+	 * 所有bean类型 名称映射
+	 *
+	 * */
 	private final Map<Class<?>, String[]> allBeanNamesByType = new ConcurrentHashMap<>(64);
 
-	/** Map of singleton-only bean names, keyed by dependency type. */
+	/** Map of singleton-only bean names, keyed by dependency type.
+	 * 单例bean类型 名称映射
+	 * */
 	private final Map<Class<?>, String[]> singletonBeanNamesByType = new ConcurrentHashMap<>(64);
 
 	/** List of bean definition names, in registration order. */
 	private volatile List<String> beanDefinitionNames = new ArrayList<>(256);
 
-	/** List of names of manually registered singletons, in registration order. */
+	/** List of names of manually registered singletons, in registration order.
+	 * 手动注册单例的名称列表
+	 *
+	 * */
 	private volatile Set<String> manualSingletonNames = new LinkedHashSet<>(16);
 
 	/** Cached array of bean definition names in case of frozen configuration. */
@@ -1184,6 +1192,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		if (hasBeanCreationStarted()) {
 			// Cannot modify startup-time collection elements anymore (for stable iteration)
 			synchronized (this.beanDefinitionMap) {
+				// 判断当前这个beanName 是否在手动注册的bean中 如果在删除
 				if (condition.test(this.manualSingletonNames)) {
 					Set<String> updatedSingletons = new LinkedHashSet<>(this.manualSingletonNames);
 					action.accept(updatedSingletons);
@@ -1193,6 +1202,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 		else {
 			// Still in startup registration phase
+			// 判断当前这个beanName 是否在手动注册的bean中 如果在删除
+
 			if (condition.test(this.manualSingletonNames)) {
 				action.accept(this.manualSingletonNames);
 			}

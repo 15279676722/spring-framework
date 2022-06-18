@@ -28,7 +28,7 @@ package org.springframework.beans.factory;
  * bean lifecycle methods, see the {@link BeanFactory BeanFactory javadocs}.
  *
  * @author Juergen Hoeller
- * @since 12.08.2003
+ * @since 12.08.2003·
  * @see InitializingBean
  * @see org.springframework.beans.factory.support.RootBeanDefinition#getDestroyMethodName()
  * @see org.springframework.beans.factory.config.ConfigurableBeanFactory#destroySingletons()
