@@ -197,10 +197,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/** System time in milliseconds when this context started. */
 	private long startupDate;
 
-	/** Flag that indicates whether this context is currently active. */
+	/** Flag that indicates whether this context is currently active. 指示此上下文当前是否处于活动状态的标志 */
 	private final AtomicBoolean active = new AtomicBoolean();
 
-	/** Flag that indicates whether this context has been closed already. */
+	/** Flag that indicates whether this context has been closed already. 上下文是否关闭状态 */
 	private final AtomicBoolean closed = new AtomicBoolean();
 
 	/** Synchronization monitor for the "refresh" and "destroy". */
@@ -242,8 +242,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * Create a new AbstractApplicationContext with no parent.
+	 *
 	 */
 	public AbstractApplicationContext() {
+		//获得一个默认的路径匹配资源模式解析器
 		this.resourcePatternResolver = getResourcePatternResolver();
 	}
 
@@ -505,8 +507,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	@Override
 	public void setParent(@Nullable ApplicationContext parent) {
+		//设置父容器
 		this.parent = parent;
 		if (parent != null) {
+			// 合并父容器的环境变量信息
 			Environment parentEnvironment = parent.getEnvironment();
 			if (parentEnvironment instanceof ConfigurableEnvironment) {
 				getEnvironment().merge((ConfigurableEnvironment) parentEnvironment);
@@ -660,10 +664,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void prepareRefresh() {
 		// Switch to active.
+		// 设置容器启动的时间
 		this.startupDate = System.currentTimeMillis();
+		// 容器的关闭标志位
 		this.closed.set(false);
+		// 容器的激活标志位
 		this.active.set(true);
-
+		// 记录日志
 		if (logger.isDebugEnabled()) {
 			if (logger.isTraceEnabled()) {
 				logger.trace("Refreshing " + this);
@@ -679,7 +686,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// Validate that all properties marked as required are resolvable:
 		// see ConfigurablePropertyResolver#setRequiredProperties
-		// 预置一些环境变量
+		// 校验环境变量中必须有的属性  可以在上面的扩展中加入到里面
 		getEnvironment().validateRequiredProperties();
 
 		// Store pre-refresh ApplicationListeners...

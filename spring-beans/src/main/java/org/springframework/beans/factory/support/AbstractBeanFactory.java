@@ -152,7 +152,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/** String resolvers to apply e.g. to annotation attribute values. */
 	private final List<StringValueResolver> embeddedValueResolvers = new CopyOnWriteArrayList<>();
 
-	/** BeanPostProcessors to apply. */
+	/**
+	 *  BeanPostProcessors to apply.
+	 * 要应用的 BeanPostProcessors。
+	 * */
 	private final List<BeanPostProcessor> beanPostProcessors = new BeanPostProcessorCacheAwareList();
 
 	/** Cache of pre-filtered post-processors. */
@@ -168,7 +171,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/** Names of beans that have already been created at least once. */
 	private final Set<String> alreadyCreated = Collections.newSetFromMap(new ConcurrentHashMap<>(256));
 
-	/** Names of beans that are currently in creation. */
+	/** Names of beans that are currently in creation. 正在创建的bean名称*/
 	private final ThreadLocal<Object> prototypesCurrentlyInCreation =
 			new NamedThreadLocal<>("Prototype beans currently in creation");
 
@@ -1142,6 +1145,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	}
 
 	/**
+	 * 把当前bean加入到正在创建的bean中
 	 * Callback before prototype creation.
 	 * <p>The default implementation registers the prototype as currently in creation.
 	 * @param beanName the name of the prototype about to be created

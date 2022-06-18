@@ -136,8 +136,10 @@ public class PropertyPlaceholderHelper {
 
 		StringBuilder result = new StringBuilder(value);
 		while (startIndex != -1) {
+			//查找最后一个后缀的下标 ${${}}
 			int endIndex = findPlaceholderEndIndex(result, startIndex);
 			if (endIndex != -1) {
+				//截取掉最外层的参数占位符 ${user.name}user.name 再进行递归操作 -> 直到没有参数占位符 user.name 再进行解析赋值
 				String placeholder = result.substring(startIndex + this.placeholderPrefix.length(), endIndex);
 				String originalPlaceholder = placeholder;
 				if (visitedPlaceholders == null) {
@@ -148,14 +150,21 @@ public class PropertyPlaceholderHelper {
 							"Circular placeholder reference '" + originalPlaceholder + "' in property definitions");
 				}
 				// Recursive invocation, parsing placeholders contained in the placeholder key.
+				//  递归调用，解析占位符键中包含的占位符
 				placeholder = parseStringValue(placeholder, placeholderResolver, visitedPlaceholders);
 				// Now obtain the value for the fully resolved key...
+				//  从环境变量中进行解析
 				String propVal = placeholderResolver.resolvePlaceholder(placeholder);
+				// 如果变量解析不出来
 				if (propVal == null && this.valueSeparator != null) {
+					// 判断有没有冒号 这种key value形式的表达式
 					int separatorIndex = placeholder.indexOf(this.valueSeparator);
 					if (separatorIndex != -1) {
+						// 拿到:前面的值 实际的参数占位符
 						String actualPlaceholder = placeholder.substring(0, separatorIndex);
+						// 拿到:后面的值 默认值
 						String defaultValue = placeholder.substring(separatorIndex + this.valueSeparator.length());
+						// 如果解析参数占位符没有解析出来的话就用默认的值进行替换  name:smallWhite
 						propVal = placeholderResolver.resolvePlaceholder(actualPlaceholder);
 						if (propVal == null) {
 							propVal = defaultValue;
@@ -165,15 +174,21 @@ public class PropertyPlaceholderHelper {
 				if (propVal != null) {
 					// Recursive invocation, parsing placeholders contained in the
 					// previously resolved placeholder value.
+					//  从环境变量中取值 取到的值也有可能是 ${}这种格式的所以再递归进行解析 直到能解析出String类型的值
+					// 说明也可以这样写 name:${user.name} 也会去递归解析
 					propVal = parseStringValue(propVal, placeholderResolver, visitedPlaceholders);
+					//替换参数占位符
 					result.replace(startIndex, endIndex + this.placeholderSuffix.length(), propVal);
 					if (logger.isTraceEnabled()) {
 						logger.trace("Resolved placeholder '" + placeholder + "'");
 					}
+					//再找下一个参数占位符对应的下标
 					startIndex = result.indexOf(this.placeholderPrefix, startIndex + propVal.length());
 				}
+				//不可解析的占位符 由ignoreUnresolvablePlaceholders配置是否进行报错 默认报错
 				else if (this.ignoreUnresolvablePlaceholders) {
 					// Proceed with unprocessed value.
+					// 继续处理未处理的值 直到没有参数占位符
 					startIndex = result.indexOf(this.placeholderPrefix, endIndex + this.placeholderSuffix.length());
 				}
 				else {
@@ -188,9 +203,13 @@ public class PropertyPlaceholderHelper {
 		}
 		return result.toString();
 	}
-
+    /**
+	 * 找到嵌套对应的结束}标签
+	 * ${ ${}}
+	 * */
 	private int findPlaceholderEndIndex(CharSequence buf, int startIndex) {
 		int index = startIndex + this.placeholderPrefix.length();
+		//前缀数量 因为有可能出现 ${ ${}} 多层嵌套
 		int withinNestedPlaceholder = 0;
 		while (index < buf.length()) {
 			if (StringUtils.substringMatch(buf, index, this.placeholderSuffix)) {
@@ -199,11 +218,12 @@ public class PropertyPlaceholderHelper {
 					index = index + this.placeholderSuffix.length();
 				}
 				else {
+					//如果后缀全部匹配完了说明拿到的是最后一个后缀  得到想要的后缀结果
 					return index;
 				}
 			}
 			else if (StringUtils.substringMatch(buf, index, this.simplePrefix)) {
-				withinNestedPlaceholder++;
+				withinNestedPlaceholder++; // 匹配到了前缀符号{ +1
 				index = index + this.simplePrefix.length();
 			}
 			else {

@@ -18,4 +18,11 @@ public class MyClassPathXmlApplicationContextTest{
 				new MyClassPathXmlApplicationContext("ioc-spring.xml");
 
 	}
+
+	@Test
+	public void testMyBean(){
+		ApplicationContext context =
+				new MyClassPathXmlApplicationContext("${user.name}-ioc-spring.xml");
+
+	}
 }

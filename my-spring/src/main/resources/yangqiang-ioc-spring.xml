@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:conntext="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <conntext:component-scan base-package="com.example.yq.ioc.messagesource"/>
+<!--	<bean class="com.example.yq.ioc.bean.UserService" id="userService" init-method="initMethod"-->
+<!--		  destroy-method="destroyMethod" name="yqService,yqService2,yqService3"  depends-on="myFactoryBean">-->
+<!--		<constructor-arg index="0" value="yangqiang"/>-->
+
+<!--	</bean>-->
+	<bean class="com.example.yq.ioc.beanfactory.MyBeanFactoryPostProcessor" id="myBeanFactoryPostProcessor" />
+	<bean class="com.example.yq.ioc.beanfactory.MyBeanFactoryPostProcessorTwo" id="myBeanFactoryPostProcessorTwo"/>
+	<bean class="com.example.yq.ioc.initbean.InitBean" id="initBean" init-method="initMethod" destroy-method="destroyMethod">
+		<constructor-arg name="name" value="initBean"/>
+	</bean>
+	<bean class="com.example.yq.ioc.multicaster.listener.MyApplicationListener" id="myApplicationListener"/>
+
+	<bean class="com.example.yq.ioc.factorybean.MyFactoryBean" id="myFactoryBean"/>
+
+	<bean class="com.example.yq.ioc.lookup.xml.Cat" id="cat"/>
+	<bean class="com.example.yq.ioc.lookup.xml.Dog" id="dog" />
+	<bean class="com.example.yq.ioc.lookup.xml.Animal" id="animal">
+		<lookup-method name="getAnimal" bean="dog"/>
+	</bean>
+
+	<bean class="com.example.yq.ioc.lookup.annotation.Apple" id="apple"/>
+	<bean class="com.example.yq.ioc.lookup.annotation.Banana" id="banana"/>
+	<bean class="com.example.yq.ioc.lookup.annotation.Fruit" id="fruit">
+	</bean>
+
+</beans>
