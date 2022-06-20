@@ -124,10 +124,11 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 		// ApplicationContext 是否有 BeanFactory
 		if (hasBeanFactory()) {
 			destroyBeans();
+			//关闭BeanFactory
 			closeBeanFactory();
 		}
 		try {
-			//初始化一个 DefaultListableBeanFactory作为当前spring容器的beanFactory
+			//初始化一个 DefaultListableBeanFactory作为当前spring容器的beanFactory 如果有父beanFactory会初始化好
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
 			//设置序列化ID
 			beanFactory.setSerializationId(getId());
@@ -217,6 +218,8 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @see DefaultListableBeanFactory#setAllowCircularReferences
 	 * @see DefaultListableBeanFactory#setAllowRawInjectionDespiteWrapping
 	 * @see DefaultListableBeanFactory#setAllowEagerClassLoading
+	 *
+	 * 可以由子类扩展 这两个字段的初始值
 	 */
 	protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
 		if (this.allowBeanDefinitionOverriding != null) {
