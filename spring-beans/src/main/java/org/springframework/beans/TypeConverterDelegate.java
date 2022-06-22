@@ -415,6 +415,7 @@ class TypeConverterDelegate {
 	 * @param newTextValue the proposed text value
 	 * @param editor the PropertyEditor to use
 	 * @return the converted value
+	 * 使用给定的属性编辑器转换给定的文本值
 	 */
 	private Object doConvertTextValue(@Nullable Object oldValue, String newTextValue, PropertyEditor editor) {
 		try {

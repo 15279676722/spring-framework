@@ -1,8 +1,5 @@
 package com.example.yq.ioc.propertyeditor;
 
-import java.awt.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
 
 /**
