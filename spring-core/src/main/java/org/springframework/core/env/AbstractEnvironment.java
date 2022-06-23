@@ -439,12 +439,20 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 		return this.propertySources;
 	}
 
+
+	/**
+	 * 获取系统属性
+	 *
+	 * */
 	@Override
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public Map<String, Object> getSystemProperties() {
 		return (Map) System.getProperties();
 	}
 
+	/**
+	 * 获取系统环境变量
+	 * */
 	@Override
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public Map<String, Object> getSystemEnvironment() {

@@ -69,7 +69,7 @@ public interface ResourcePatternResolver extends ResourceLoader {
 	 * Resolve the given location pattern into {@code Resource} objects.
 	 * <p>Overlapping resource entries that point to the same physical
 	 * resource should be avoided, as far as possible. The result should
-	 * have set semantics.
+	 * have set semantics. 将给定的路径解析成资源文件
 	 * @param locationPattern the location pattern to resolve
 	 * @return the corresponding {@code Resource} objects
 	 * @throws IOException in case of I/O errors

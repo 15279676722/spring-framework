@@ -13,7 +13,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class PropertyEditorTest {
 	@Test
-	public void testMessageResource(){
+	public void testPropertyEditor(){
 		ClassPathXmlApplicationContext context =
 				new ClassPathXmlApplicationContext("property-editor.xml");
 		context.getBeanFactory().addPropertyEditorRegistrar(registry -> {

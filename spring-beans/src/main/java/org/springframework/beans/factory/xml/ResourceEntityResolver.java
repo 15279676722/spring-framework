@@ -63,7 +63,7 @@ public class ResourceEntityResolver extends DelegatingEntityResolver {
 	 * Create a ResourceEntityResolver for the specified ResourceLoader
 	 * (usually, an ApplicationContext).
 	 * @param resourceLoader the ResourceLoader (or ApplicationContext)
-	 * to load XML entity includes with
+	 * to load XML entity includes with 为指定的resourceLoader创建一个资源实体解析器
 	 */
 	public ResourceEntityResolver(ResourceLoader resourceLoader) {
 		super(resourceLoader.getClassLoader());
