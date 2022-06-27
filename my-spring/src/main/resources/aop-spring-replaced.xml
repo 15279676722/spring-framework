@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean  class="com.example.yq.aop.replaced.ReplacedBean">
+		<constructor-arg name="age" value="12"/>
+		<constructor-arg name="name" value="smallWhite"/>
+        <property name="name" value="smallWhite3"/>
+		<property name="age" value="133"/>
+ 		<replaced-method name="test" replacer="myMethodReplacer"/>
+		<replaced-method name="test" replacer="myMethodReplacer">
+			<!-- 对应方法参数类型 -->
+			<arg-type match="java.lang.String"/>
+			<arg-type match="java.lang.Integer"/>
+		</replaced-method>
+
+	</bean>
+	<bean id="myMethodReplacer" class="com.example.yq.aop.replaced.MyMethodReplacer"/>
+
+
+</beans>

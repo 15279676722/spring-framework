@@ -6,7 +6,8 @@ package com.example.yq.ioc.lookup.xml;
  */
 public class Dog extends Animal{
 	@Override
-	void eat() {
+	public String eat() {
 		System.out.println("狗吃猫");
+		return "狗吃猫";
 	}
 }

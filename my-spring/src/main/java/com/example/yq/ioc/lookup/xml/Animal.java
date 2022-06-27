@@ -5,7 +5,8 @@ package com.example.yq.ioc.lookup.xml;
  * @create 2022-06-08 21:55
  */
 public abstract class Animal {
-	void eat() {
+	public String eat() {
+		return null;
 	};
 
 	/**
@@ -13,6 +14,10 @@ public abstract class Animal {
 	 * 使得调用getAnimal方法的时候会默认返回一个 dog对象
 	 */
 	Animal getAnimal() {
+		return null;
+	};
+
+	Animal getAnimal(String name) {
 		return null;
 	};
 

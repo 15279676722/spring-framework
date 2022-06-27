@@ -7,5 +7,7 @@
 	<bean id="serviceA" class="com.example.yq.ioc.service.SetterBean$ServiceA"/>
 	<bean id="serviceB" class="com.example.yq.ioc.service.SetterBean$ServiceB" autowire-candidate="false"/>
 
-	<bean id="setterBean" class="com.example.yq.ioc.service.SetterBean" autowire="byName" />
+	<bean id="setterBean" class="com.example.yq.ioc.service.SetterBean" autowire="byName" >
+		<meta key="name" value="smallWhite"/>
+	</bean>
 </beans>

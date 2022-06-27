@@ -8,8 +8,9 @@ import org.springframework.beans.factory.InitializingBean;
  */
 public class Cat extends Animal implements InitializingBean {
 	@Override
-	void eat() {
+	public String eat() {
 		System.out.println("猫吃老鼠");
+		return "猫吃老鼠";
 	}
 
 	public void initMethod(){

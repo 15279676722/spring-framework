@@ -6,4 +6,6 @@ package com.example.yq.aop.pointcut;
  */
 public interface Person {
 	void say();
+
+	void sayAfter();
 }

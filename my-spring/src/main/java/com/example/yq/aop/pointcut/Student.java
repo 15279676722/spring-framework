@@ -1,6 +1,7 @@
 package com.example.yq.aop.pointcut;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.aop.framework.AopContext;
 
 /**
  * @author yangqiang
@@ -10,8 +11,14 @@ public class Student implements Person{
 	@Override
 	public void say() {
 		System.out.println("这是一个苦逼的程序员");
+		((Person) AopContext.currentProxy()).sayAfter();
+
 	}
 
-    @Autowired
-	private StudentB studentB;
+	@Override
+	public void sayAfter() {
+		System.out.println("这是一个苦逼的程序员sayAfter");
+	}
+
+
 }

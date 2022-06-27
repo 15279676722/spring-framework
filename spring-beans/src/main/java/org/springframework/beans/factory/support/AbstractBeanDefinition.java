@@ -67,6 +67,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Constant that indicates no external autowiring at all.
+	 * (默认)不采用autowire机制。当我们需要使用依赖注入，只能用 ref
 	 * @see #setAutowireMode
 	 */
 	public static final int AUTOWIRE_NO = AutowireCapableBeanFactory.AUTOWIRE_NO;
@@ -160,6 +161,10 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	private boolean primary = false;
 
+	/**
+	 * <qualifier>
+	 * 标签的配置
+	 * */
 	private final Map<String, AutowireCandidateQualifier> qualifiers = new LinkedHashMap<>();
 
 	@Nullable
@@ -175,12 +180,26 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Nullable
 	private String factoryMethodName;
 
+	/**
+	 * xml配置构造器参数
+	 * <constructor-arg>
+	 * */
 	@Nullable
 	private ConstructorArgumentValues constructorArgumentValues;
 
+	/**
+	 * xml中配置参数
+	 * <property>
+	 * */
 	@Nullable
 	private MutablePropertyValues propertyValues;
 
+	/**
+	 * <lookup-method/>
+	 * <replaced-method>
+	 * 存储的事这个beanDefinition中的 这两个标签的配置
+	 * overrides
+	 * */
 	private MethodOverrides methodOverrides = new MethodOverrides();
 
 	@Nullable
@@ -200,6 +219,9 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Nullable
 	private String description;
 
+	/**
+	 * bean定义的来源 出现错误方便清楚知道上下文
+	 * */
 	@Nullable
 	private Resource resource;
 

@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.*;
 @Aspect
 public class AspectJTest {
 
-	@Pointcut("execution(public void com.example.yq.aop.pointcut.Person.say(..))")
+	@Pointcut("execution(public void com.example.yq.aop.pointcut.Person.say(..)) || execution(public void com.example.yq.aop.pointcut.Person.sayAfter(..))")
 	public void test(){}
 
 	@Before("test()")

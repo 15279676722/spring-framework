@@ -527,6 +527,21 @@ public class BeanDefinitionParserDelegate {
 			AbstractBeanDefinition bd = createBeanDefinition(className, parent);
 
 			//解析bean标签下其他各种属性
+			/**
+			 * 1.spring 不支持singleton=false 这种写法了 会直接报错
+			 * 2.写入scope作用域属性
+			 * 3.abstract是否抽象bean
+			 * 4.lazy-init 是否懒加载 默认false
+			 * 5.autowire 属性注入方式
+			 * 6.depends-on bean实例化依赖 需要先依赖这个bean
+			 * 7.autowire-candidate 是否作为候选bean被注入 默认 true 可以被注入
+			 * 8.primary 在多个候选bean中作为首选 默认 false
+			 * 9.init-method 设置初始化方法
+			 * 10.destroy-method 设置销毁bean方法
+			 * 11.factory-method 工厂方法 可以通过工厂方法来获得这个bean
+			 * 12.factory-bean 工厂bean 通过工厂bean的工厂方法来获得这个bean  这个和FactoryBean不一样。
+			 */
+
 			parseBeanDefinitionAttributes(ele, beanName, containingBean, bd);
 
 
@@ -537,11 +552,11 @@ public class BeanDefinitionParserDelegate {
 			bd.setDescription(DomUtils.getChildElementValueByTagName(ele, DESCRIPTION_ELEMENT));
 
 
-            //解析元数据 meta 标签
+            //解析元数据 meta 标签 <meta key="name" value = "smallWhite"/>
 			parseMetaElements(ele, bd);
-			//解析lookup-method 标签
+			//解析lookup-method 标签 并不会解析 @LookUp注解 存在methodOverrides
 			parseLookupOverrideSubElements(ele, bd.getMethodOverrides());
-			//解析replaced-method
+			//解析replaced-method 存在methodOverrides里面
 			parseReplacedMethodSubElements(ele, bd.getMethodOverrides());
             //解析<constructor-arg/>标签
 			parseConstructorArgElements(ele, bd);
@@ -581,6 +596,7 @@ public class BeanDefinitionParserDelegate {
 	public AbstractBeanDefinition parseBeanDefinitionAttributes(Element ele, String beanName,
 			@Nullable BeanDefinition containingBean, AbstractBeanDefinition bd) {
 
+		//spring 不支持singleton=false 这种写法了 会直接报错
 		if (ele.hasAttribute(SINGLETON_ATTRIBUTE)) {
 			error("Old 1.x 'singleton' attribute in use - upgrade to 'scope' declaration", ele);
 		}
@@ -878,6 +894,7 @@ public class BeanDefinitionParserDelegate {
 			}
 			Object val = parsePropertyValue(ele, bd, propertyName);
 			PropertyValue pv = new PropertyValue(propertyName, val);
+			//解析<meta>标签
 			parseMetaElements(ele, pv);
 			pv.setSource(extractSource(ele));
 			bd.getPropertyValues().addPropertyValue(pv);
@@ -1564,6 +1581,9 @@ public class BeanDefinitionParserDelegate {
 		return !StringUtils.hasLength(value) || DEFAULT_VALUE.equals(value);
 	}
 
+	/**
+	 * 校验是不是能解析的元素
+	 * */
 	private boolean isCandidateElement(Node node) {
 		return (node instanceof Element && (isDefaultNamespace(node) || !isDefaultNamespace(node.getParentNode())));
 	}

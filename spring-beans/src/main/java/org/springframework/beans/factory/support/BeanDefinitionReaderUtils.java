@@ -64,6 +64,7 @@ public abstract class BeanDefinitionReaderUtils {
 				bd.setBeanClass(ClassUtils.forName(className, classLoader));
 			}
 			else {
+				//没有类加载起则写入beanClassName
 				bd.setBeanClassName(className);
 			}
 		}

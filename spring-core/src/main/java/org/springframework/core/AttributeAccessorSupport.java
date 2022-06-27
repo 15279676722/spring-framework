@@ -39,7 +39,10 @@ import org.springframework.util.StringUtils;
 @SuppressWarnings("serial")
 public abstract class AttributeAccessorSupport implements AttributeAccessor, Serializable {
 
-	/** Map with String keys and Object values. */
+	/**
+	 * Map with String keys and Object values.
+	 * meta标签解析出来的 key value值
+	 * */
 	private final Map<String, Object> attributes = new LinkedHashMap<>();
 
 
