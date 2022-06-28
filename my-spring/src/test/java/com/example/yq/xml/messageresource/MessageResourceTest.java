@@ -20,6 +20,8 @@ public class MessageResourceTest {
 				new AnnotationConfigApplicationContext(MessageSourceConfig.class);
 		MessageSource messageSource = context.getBean(MessageSource.class);
 
+		System.out.println(messageSource.getMessage("name", null, null));
+
 		System.out.println(messageSource.getMessage("name", null, null, Locale.CHINA));
 		System.out.println(messageSource.getMessage("name", null, null, Locale.ENGLISH));
 		System.out.println(messageSource.getMessage("name",null,null,Locale.GERMAN));

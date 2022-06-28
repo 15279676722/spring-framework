@@ -658,14 +658,38 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
 				// Invoke factory processors registered as beans in the context.
+				// 调用BeanDefinitionRegistryPostProcessor各个实现类的postProcessBeanDefinitionRegistry方法
 				// 调用 BeanFactoryPostProcessor 各个实现类的 postProcessBeanFactory(factory) 回调方法
+				/**
+				 * 1.调用BeanDefinitionRegistryPostProcessor的postProcessBeanDefinitionRegistry方法
+				 *    顺序 实现了PriorityOrdered getOrder方法 从小到大排序
+				 *        实现了Ordered         getOrder方法 从小到大排序
+				 *        剩下的实现BeanDefinitionRegistryPostProcessor方法的按bean注册顺序排序
+				 *
+				 * 2.调用BeanDefinitionRegistryPostProcessor的postProcessBeanFactory方法 按照上面排好的顺序执行
+				 *
+				 * 3.调用实现BeanFactoryPostProcessor的bean的postProcessBeanFactory方法 (已经执行过的会去除)
+				 *    顺序 实现了PriorityOrdered getOrder方法 从小到大排序
+				 * 		  实现了Ordered         getOrder方法 从小到大排序
+				 * 		  剩下的实现BeanFactoryPostProcessor方法的按bean注册顺序排序
+				 * */
 				invokeBeanFactoryPostProcessors(beanFactory);
 
-				// Register bean processors that intercept bean creation.
 				// 注册 BeanPostProcessor 的实现类，注意看和 BeanFactoryPostProcessor 的区别
 				// 此接口两个方法: postProcessBeforeInitialization 和 postProcessAfterInitialization
 				// 两个方法分别在 Bean 初始化之前和初始化之后得到执行。这里仅仅是注册，之后会看到回调这两方法的时机
+				/**
+				 * 注册实现了BeanPostProcessor接口bean 到beanPostProcessors
+				 * 顺序
+				 *   spring预置的
+				 *   实现了priorityOrdered接口的
+				 *   注册实现Ordered接口的
+				 *   普通实现了BeanPostProcessor接口的
+				 *   实现了MergedBeanDefinitionPostProcessor接口的 Spring内部BeanPostprocessor
+				 *   ApplicationListenerDetector
+				 * */
 				registerBeanPostProcessors(beanFactory);
+                //结束beanPostProcess操作
 				beanPostProcess.end();
 
 				// Initialize message source for this context.
@@ -875,6 +899,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * <p>Must be called before singleton instantiation.
 	 */
 	protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
+		//执行BeanFactoryPostProcessor
 		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
 
 		// Detect a LoadTimeWeaver and prepare for weaving, if found in the meantime

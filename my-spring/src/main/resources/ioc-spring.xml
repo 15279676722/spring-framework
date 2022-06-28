@@ -30,7 +30,7 @@
 
 	<bean class="com.example.yq.ioc.lookup.annotation.Apple" id="apple"/>
 	<bean class="com.example.yq.ioc.lookup.annotation.Banana" id="banana"/>
-	<bean class="com.example.yq.ioc.lookup.annotation.Fruit" id="fruit">
+	<bean class="com.example.yq.ioc.lookup.annotation.Fruit" id="fruit" abstract="true">
 	</bean>
-
+    <bean class="com.example.yq.ioc.beanfactory.MyBeanDefinitionRegistryPostProcessor" id="myBeanDefinitionRegistryPostProcessor"/>
 </beans>
