@@ -1,10 +1,13 @@
 package com.example.yq.ioc.initproperty;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MutablePropertySources;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,8 +30,24 @@ public class MyClassPathXmlApplicationContext extends ClassPathXmlApplicationCon
 		systemProperties.put("name","smallWhite");
 		//设置需要验证的属性 当前环境属性中没有的话会报错
 		environment.setRequiredProperties("name");
-		System.out.println(systemEnvironment);
-		System.out.println(systemProperties);
+
+		printConfig(systemEnvironment,systemProperties);
+
+	}
+
+	/**
+	 * 打印配置信息
+	 * */
+	public void printConfig(Map<String,Object> ...map){
+		System.out.println("系统属性start--------------");
+
+		List<Map<String, Object>> maps = Arrays.asList(map);
+		maps.forEach(item->{
+			item.forEach((key,value)->{
+				System.out.println(key+"="+value);
+			});
+		});
+		System.out.println("系统属性end---------------");
 
 	}
 
@@ -37,5 +56,10 @@ public class MyClassPathXmlApplicationContext extends ClassPathXmlApplicationCon
 		super.setAllowBeanDefinitionOverriding(false);
 		super.setAllowCircularReferences(false);
 		super.customizeBeanFactory(beanFactory);
+	}
+
+	@Override
+	protected void onRefresh() throws BeansException {
+		super.onRefresh();
 	}
 }

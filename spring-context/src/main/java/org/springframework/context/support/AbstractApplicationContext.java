@@ -253,7 +253,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	private MessageSource messageSource;
 
 	/**
-	 * Helper class used in event publishing.
+	 * Helper class used in event publishing
+	 * 事件发布多播器
 	 */
 	@Nullable
 	private ApplicationEventMulticaster applicationEventMulticaster;
@@ -276,6 +277,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * ApplicationEvents published before the multicaster setup.
+	 * 在多播器设置之前发布的 ApplicationEvents。
+	 * 在初始化监听器之前会先进行一次事件的发布
 	 */
 	@Nullable
 	private Set<ApplicationEvent> earlyApplicationEvents;
@@ -702,7 +705,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 				// Initialize other special beans in specific context subclasses.
 				// 从方法名就可以知道，典型的模板方法(钩子方法)
-				// 具体的子类可以在这里初始化一些特殊的 Bean（在初始化 singleton beans 之前）
+				// 具体的子类可以在这里初始化一些特殊的 Bean（在初始化 singleton beans 之前） 后续SpringBoot会进扩展
 				onRefresh();
 
 				// Check for listener beans and register them.
@@ -715,7 +718,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				//（lazy-init 的除外）
 				finishBeanFactoryInitialization(beanFactory);
 
-				// Last step: publish corresponding event.
+				// Last step: publish corresponding event. 最后一步：发布相应的事件。
 				finishRefresh();
 			} catch (BeansException ex) {
 				if (logger.isWarnEnabled()) {
