@@ -675,6 +675,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				 *    顺序 实现了PriorityOrdered getOrder方法 从小到大排序
 				 * 		  实现了Ordered         getOrder方法 从小到大排序
 				 * 		  剩下的实现BeanFactoryPostProcessor方法的按bean注册顺序排序
+				 *
+				 * 4.添加LoadTimeWeaverAwareProcessor
 				 * */
 				invokeBeanFactoryPostProcessors(beanFactory);
 
@@ -716,9 +718,20 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				// 重点，重点，重点
 				// 初始化所有的 singleton beans
 				//（lazy-init 的除外）
+				/**
+				 * 1.注册conversionService 类型转换器bean
+				 * 2.注册一个默认的嵌入值解析器，主要用于解析注解属性值
+				 * 3.初始化LoadTimeWeaverAware Bean实例对象
+				 * 4.开始初始化操作单例bean
+				 *
+				 *
+				 *
+				 *
+				 * */
 				finishBeanFactoryInitialization(beanFactory);
 
-				// Last step: publish corresponding event. 最后一步：发布相应的事件。
+				// Last step: publish corresponding event.
+				// 最后一步：发布相应的事件。
 				finishRefresh();
 			} catch (BeansException ex) {
 				if (logger.isWarnEnabled()) {

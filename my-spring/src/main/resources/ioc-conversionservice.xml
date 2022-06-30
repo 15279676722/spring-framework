@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:conntext="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+	<context:annotation-config/>
+	<conntext:component-scan base-package="com.example.yq.ioc.conversionservice"/>
+
+	<bean class="com.example.yq.ioc.conversionservice.MyClass" id="myClass">
+		<property name="id" value="1"></property>
+		<property name="person" value="18-smallwhite"/>
+  	</bean>
+
+</beans>
