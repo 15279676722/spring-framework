@@ -175,7 +175,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/** Map from scope identifier String to corresponding Scope. */
 	private final Map<String, Scope> scopes = new LinkedHashMap<>(8);
 
-	/** Map from bean name to merged RootBeanDefinition. */
+	/**
+	 * Map from bean name to merged RootBeanDefinition.
+	 * beanName -> beanDefinition映射
+	 * */
 	private final Map<String, RootBeanDefinition> mergedBeanDefinitions = new ConcurrentHashMap<>(256);
 
 	/** Names of beans that have already been created at least once. */
@@ -293,14 +296,15 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					return abf.doGetBean(nameToLookup, requiredType, args, typeCheckOnly);
 				}
 				else if (args != null) {
-					// Delegation to parent with explicit args.
+					// Delegation to parent with explicit args.由父类去创建bean
 					return (T) parentBeanFactory.getBean(nameToLookup, args);
 				}
 				else if (requiredType != null) {
-					// No args -> delegate to standard getBean method.
+					// No args -> delegate to standard getBean method. 由父类去创建bean
 					return parentBeanFactory.getBean(nameToLookup, requiredType);
 				}
 				else {
+					//由父类去创建bean
 					return (T) parentBeanFactory.getBean(nameToLookup);
 				}
 			}
@@ -1547,9 +1551,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 			}
 		}
-
+        //
 		String className = mbd.getBeanClassName();
 		if (className != null) {
+			//评估包含在 bean 定义中的给定字符串，可能将其解析为表达式 可能包含#{}
 			Object evaluated = evaluateBeanDefinitionString(className, mbd);
 			if (!className.equals(evaluated)) {
 				// A dynamically resolved expression, supported as of 4.2...
@@ -1580,8 +1585,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				return ClassUtils.forName(className, dynamicLoader);
 			}
 		}
-
 		// Resolve regularly, caching the result in the BeanDefinition...
+		// 通过反射创建一个bean class对象
 		return mbd.resolveBeanClass(beanClassLoader);
 	}
 

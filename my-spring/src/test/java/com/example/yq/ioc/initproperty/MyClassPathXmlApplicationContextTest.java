@@ -16,6 +16,8 @@ public class MyClassPathXmlApplicationContextTest{
 	public void testBean(){
 		ApplicationContext context =
 				new MyClassPathXmlApplicationContext("ioc-spring.xml");
+		context.getBean("myFactoryBean");
+		context.getBean("&myFactoryBean");
 
 	}
 

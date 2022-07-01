@@ -723,10 +723,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				 * 2.注册一个默认的嵌入值解析器，主要用于解析注解属性值
 				 * 3.初始化LoadTimeWeaverAware Bean实例对象
 				 * 4.开始初始化操作单例bean
-				 *
-				 *
-				 *
-				 *
 				 * */
 				finishBeanFactoryInitialization(beanFactory);
 

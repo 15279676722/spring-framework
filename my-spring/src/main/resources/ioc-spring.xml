@@ -19,7 +19,7 @@
 
 	<bean class="com.example.yq.ioc.factorybean.MyFactoryBean" id="myFactoryBean"/>
 
-	<bean class="com.example.yq.ioc.lookup.xml.Cat" id="cat"/>
+	<bean class="com.example.yq.ioc.lookup.xml.Cat" id="cat" parent="animal"/>
 	<bean class="com.example.yq.ioc.lookup.xml.Dog" id="dog" />
 	<bean class="com.example.yq.ioc.lookup.xml.Animal" id="animal">
 		<lookup-method name="getAnimal" bean="dog"/>
