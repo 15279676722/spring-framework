@@ -502,9 +502,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		// Prepare method overrides.
-		// 准备方法覆写，这里又涉及到一个概念：MethodOverrides，它来自于 bean 定义中的 <lookup-method />
-		// 和 <replaced-method />，如果读者感兴趣，回到 bean 解析的地方看看对这两个标签的解析。
-		// 我在附录中也对这两个标签的相关知识点进行了介绍，读者可以移步去看看
+		// 准备方法覆写，这里又涉及到一个概念：MethodOverrides，它来自bean 定义中的 <lookup-method /> 和 <replaced-method />
 		try {
 			mbdToUse.prepareMethodOverrides();
 		}
@@ -515,7 +513,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		try {
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
-			// 让 BeanPostProcessors 有机会返回一个代理而不是目标 bean 实例。 涉及到AOP先不看
+			// 让 BeanPostProcessors 有机会返回一个代理而不是目标 bean 实例。
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
 			if (bean != null) {
 				return bean;

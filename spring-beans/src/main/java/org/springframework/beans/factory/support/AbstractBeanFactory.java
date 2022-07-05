@@ -367,7 +367,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 							destroySingleton(beanName);
 							throw ex;
 						}
-					});//处理FactoryBean
+					});
+					//处理FactoryBean
 					beanInstance = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);
 				}
 
@@ -375,6 +376,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					// It's a prototype -> create a new instance.
 					Object prototypeInstance = null;
 					try {
+
 						beforePrototypeCreation(beanName);
 						prototypeInstance = createBean(beanName, mbd, args);
 					}
