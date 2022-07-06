@@ -7,6 +7,5 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @create 2022-06-13 19:31
  */
 public class StudentB {
-	@Autowired
-	private Person student;
+
 }
