@@ -301,7 +301,8 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 						this.suppressedExceptions = null;
 					}
 					afterSingletonCreation(beanName);
-				}//将已经实例化 并且初始化好的bean对象加入到一级缓存中 并从二三级缓存中删除
+				}
+				//将已经实例化 并且初始化好的bean对象加入到一级缓存中 并从二三级缓存中删除
 				if (newSingleton) {
 					addSingleton(beanName, singletonObject);
 				}

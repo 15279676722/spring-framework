@@ -358,7 +358,7 @@ public abstract class ReflectionUtils {
 			return;
 		}
 		Method[] methods = getDeclaredMethods(clazz, false);
-		for (Method method : methods) {
+		for (Method method : methods) {//判断此方法不包含@PointCut
 			if (mf != null && !mf.matches(method)) {
 				continue;
 			}

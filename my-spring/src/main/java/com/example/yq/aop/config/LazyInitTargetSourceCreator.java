@@ -48,7 +48,7 @@ public class LazyInitTargetSourceCreator extends AbstractBeanFactoryBasedTargetS
 		if (getBeanFactory() instanceof ConfigurableListableBeanFactory) {
 			BeanDefinition definition =
 					((ConfigurableListableBeanFactory) getBeanFactory()).getBeanDefinition(beanName);
-			if (definition.getBeanClassName().equals("student")) {
+			if (definition.getFactoryMethodName().equals("student")) {
 				return new LazyInitTargetSource();
 			}
 		}

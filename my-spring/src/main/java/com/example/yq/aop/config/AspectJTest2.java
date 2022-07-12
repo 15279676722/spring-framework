@@ -2,15 +2,11 @@ package com.example.yq.aop.config;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
-/**
- * @see AfterReturning
- * @see AfterThrowing
- * 有时间研究这两个的作用
- * */
-@Aspect
-public class AspectJTest {
 
-	@Pointcut("execution(public void com.example.yq.aop.pointcut.Person.say(..)) )")
+@Aspect
+public class AspectJTest2 {
+
+	@Pointcut("execution(public void com.example.yq.aop.pointcut.Person.sayAfter(..))")
 	public void test(){}
 
 	@Before("test()")

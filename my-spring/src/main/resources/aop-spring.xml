@@ -17,4 +17,7 @@
 	</aop:aspectj-autoproxy>
 	<bean id="student" class="com.example.yq.aop.pointcut.Student"/>
 	<bean id="aspectJTest" class="com.example.yq.aop.config.AspectJTest"/>
+	<bean class="com.example.yq.ioc.lookup.annotation.Banana" id="banana"/>
+	<bean class="com.example.yq.ioc.lookup.annotation.Apple" id="apple"/>
+
 </beans>

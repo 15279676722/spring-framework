@@ -100,10 +100,10 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 						Class<?> beanType = this.beanFactory.getType(beanName, false);
 						if (beanType == null) {
 							continue;
-						}
+						}//是否带有@Aspect 和非ajc编译的类
 						if (this.advisorFactory.isAspect(beanType)) {
 							aspectNames.add(beanName);
-							AspectMetadata amd = new AspectMetadata(beanType, beanName);
+							AspectMetadata amd = new AspectMetadata(beanType, beanName);//创建切面元数据
 							if (amd.getAjType().getPerClause().getKind() == PerClauseKind.SINGLETON) {
 								MetadataAwareAspectInstanceFactory factory =
 										new BeanFactoryAspectInstanceFactory(this.beanFactory, beanName);

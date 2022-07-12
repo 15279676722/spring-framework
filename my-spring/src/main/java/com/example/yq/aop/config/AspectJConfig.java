@@ -19,6 +19,10 @@ public class AspectJConfig {
 	public AspectJTest aspectJTest(){
 		return new AspectJTest();
 	}
+	@Bean
+	public AspectJTest2 aspectJTest2(){
+		return new AspectJTest2();
+	}
 
 	@Bean
 	public Student student(){
@@ -36,10 +40,10 @@ public class AspectJConfig {
 		return new LazyInitTargetSourceCreator();
 	}
 
-	@Bean
-	public AnnotationAwareAspectJAutoProxyCreator annotationAwareAspectJAutoProxyCreator(LazyInitTargetSourceCreator lazyInitTargetSourceCreator){
-		AnnotationAwareAspectJAutoProxyCreator annotationAwareAspectJAutoProxyCreator = new AnnotationAwareAspectJAutoProxyCreator();
-		annotationAwareAspectJAutoProxyCreator.setCustomTargetSourceCreators(lazyInitTargetSourceCreator);
-		return annotationAwareAspectJAutoProxyCreator;
-	}
+//	@Bean
+//	public AnnotationAwareAspectJAutoProxyCreator annotationAwareAspectJAutoProxyCreator(LazyInitTargetSourceCreator lazyInitTargetSourceCreator){
+//		AnnotationAwareAspectJAutoProxyCreator annotationAwareAspectJAutoProxyCreator = new AnnotationAwareAspectJAutoProxyCreator();
+//		annotationAwareAspectJAutoProxyCreator.setCustomTargetSourceCreators(lazyInitTargetSourceCreator);
+//		return annotationAwareAspectJAutoProxyCreator;
+//	}
 }
