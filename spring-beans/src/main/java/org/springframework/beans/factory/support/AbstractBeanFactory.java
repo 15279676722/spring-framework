@@ -1292,7 +1292,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	protected void registerCustomEditors(PropertyEditorRegistry registry) {
 		if (registry instanceof PropertyEditorRegistrySupport registrySupport) {
 			registrySupport.useConfigValueEditors();
-		}
+		}//找到实现了PropertyEditorRegistrar接口的类 执行registerCustomEditors方法进行 自定义PropertyEditor的注册
 		if (!this.propertyEditorRegistrars.isEmpty()) {
 			for (PropertyEditorRegistrar registrar : this.propertyEditorRegistrars) {
 				try {
@@ -1315,7 +1315,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					throw ex;
 				}
 			}
-		}
+		}//和上面的作用是一样的 都是为了进行自定义PropertyEditor的注册
 		if (!this.customEditors.isEmpty()) {
 			this.customEditors.forEach((requiredType, editorClass) ->
 					registry.registerCustomEditor(requiredType, BeanUtils.instantiateClass(editorClass)));

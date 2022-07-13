@@ -15,9 +15,31 @@
 		<!--指定代理-->
 		<aop:include name="aspectJTest"/>
 	</aop:aspectj-autoproxy>
-	<bean id="student" class="com.example.yq.aop.pointcut.Student"/>
+	<bean id="student" class="com.example.yq.aop.pointcut.Student">
+		<constructor-arg name="name1" value="yangqiang"/>
+		<constructor-arg name="id1" value="1"/>
+		<constructor-arg name="age"  value="18"/>
+		<constructor-arg name="job"  ref="job"/>
+
+	</bean>
 	<bean id="aspectJTest" class="com.example.yq.aop.config.AspectJTest"/>
 	<bean class="com.example.yq.ioc.lookup.annotation.Banana" id="banana"/>
 	<bean class="com.example.yq.ioc.lookup.annotation.Apple" id="apple"/>
 
+	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="customEditors">
+			<map>
+				<entry key="com.example.yq.ioc.propertyeditor.Content" value="com.example.yq.ioc.propertyeditor.ContentPropertyEditor"></entry>
+			</map>
+		</property>
+		<property name="propertyEditorRegistrars">
+			<list>
+				<bean class="com.example.yq.ioc.propertyeditor.ContentPropertyEditorRegister"></bean>
+			</list>
+		</property>
+	</bean>
+	<bean class="com.example.yq.ioc.propertyeditor.Job" id="job">
+		<property name="completed" value="off" />
+		<property name="content" value="关注我:紧急:100"/>
+	</bean>
 </beans>
