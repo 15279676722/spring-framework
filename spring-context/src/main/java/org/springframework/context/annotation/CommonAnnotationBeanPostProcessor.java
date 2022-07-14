@@ -270,7 +270,17 @@ public class CommonAnnotationBeanPostProcessor extends InitDestroyAnnotationBean
 			this.embeddedValueResolver = new EmbeddedValueResolver(configurableBeanFactory);
 		}
 	}
-
+	/**
+	 * super.postProcessMergedBeanDefinition(beanDefinition, beanType, beanName);
+	 * 查找生命周期方法
+	 * 这两个注解修饰的方法 不能有参数 有参数会报错
+	 * @PostConstruct
+	 * @PreDestroy
+	 *
+	 * findResourceMetadata
+	 * 查找@Resource注解元数据信息 不能修饰静态方法
+	 *
+	 * */
 
 	@Override
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
@@ -318,7 +328,7 @@ public class CommonAnnotationBeanPostProcessor extends InitDestroyAnnotationBean
 				if (InjectionMetadata.needsRefresh(metadata, clazz)) {
 					if (metadata != null) {
 						metadata.clear(pvs);
-					}
+					}//构建resource元数据
 					metadata = buildResourceMetadata(clazz);
 					this.injectionMetadataCache.put(cacheKey, metadata);
 				}

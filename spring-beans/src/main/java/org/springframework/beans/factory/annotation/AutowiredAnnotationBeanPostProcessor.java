@@ -279,7 +279,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 
 	@Override
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
-		findInjectionMetadata(beanName, beanType, beanDefinition);
+		findInjectionMetadata(beanName, beanType, beanDefinition);//查找注入元数据 @Autowired不能作用static变量
 	}
 
 	@Override
@@ -555,7 +555,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 				if (InjectionMetadata.needsRefresh(metadata, clazz)) {
 					if (metadata != null) {
 						metadata.clear(pvs);
-					}
+					}//构建注入元数据
 					metadata = buildAutowiringMetadata(clazz);
 					this.injectionMetadataCache.put(cacheKey, metadata);
 				}
@@ -565,7 +565,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 	}
 
 	private InjectionMetadata buildAutowiringMetadata(Class<?> clazz) {
-		if (!AnnotationUtils.isCandidateClass(clazz, this.autowiredAnnotationTypes)) {
+		if (!AnnotationUtils.isCandidateClass(clazz, this.autowiredAnnotationTypes)) {//判断bean是否包含 @Autowired 和@Value注解
 			return InjectionMetadata.EMPTY;
 		}
 
@@ -576,7 +576,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 			final List<InjectionMetadata.InjectedElement> currElements = new ArrayList<>();
 
 			ReflectionUtils.doWithLocalFields(targetClass, field -> {
-				MergedAnnotation<?> ann = findAutowiredAnnotation(field);
+				MergedAnnotation<?> ann = findAutowiredAnnotation(field);//找到注入类型的注解
 				if (ann != null) {
 					if (Modifier.isStatic(field.getModifiers())) {
 						if (logger.isInfoEnabled()) {

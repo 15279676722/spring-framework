@@ -575,10 +575,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			mbd.resolvedTargetType = beanType;
 		}
 
-		// Allow post-processors to modify the merged bean definition.    // 建议跳过吧，涉及接口：MergedBeanDefinitionPostProcessor
+		// Allow post-processors to modify the merged bean definition.
+		// 建议跳过吧，涉及接口：MergedBeanDefinitionPostProcessor
 		synchronized (mbd.postProcessingLock) {
 			if (!mbd.postProcessed) {
-				try {//TODO
+				try {
+					//解析元数据
+					//1.CommonAnnotationBeanPostProcessor 解析对应的@PostConstruct @PreDestroy @Resource 注解注解元数据
+					//2.AutowiredAnnotationBeanPostProcessor 解析对应的@Autowired @Value 注解元数据
+					//3.ApplicationListenerDetector 找到子接口并加入ApplicationListenerDetector 的单例map中
 					applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName);
 				}
 				catch (Throwable ex) {
@@ -589,7 +594,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}
 		}
 
-		// Eagerly cache singletons to be able to resolve circular references
+		// 判断当前bean为单例并且能循环引用 并且bean正在创建中
 		// even when triggered by lifecycle interfaces like BeanFactoryAware.
 		boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences &&
 				isSingletonCurrentlyInCreation(beanName));

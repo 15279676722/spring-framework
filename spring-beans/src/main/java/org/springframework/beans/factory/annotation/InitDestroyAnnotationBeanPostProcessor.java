@@ -170,7 +170,12 @@ public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareB
 		}
 		return null;
 	}
-
+    /**
+	 * 查找生命周期方法
+	 * 这两个注解修饰的方法 不能有参数 有参数会报错
+	 * @PostConstruct
+	 * @PreDestroy
+	 * */
 	private LifecycleMetadata findInjectionMetadata(RootBeanDefinition beanDefinition, Class<?> beanType) {
 		LifecycleMetadata metadata = findLifecycleMetadata(beanType);
 		metadata.checkConfigMembers(beanDefinition);
@@ -229,7 +234,9 @@ public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareB
 		return findLifecycleMetadata(bean.getClass()).hasDestroyMethods();
 	}
 
-
+    /**
+	 * 查找生命周期元数据
+	 * */
 	private LifecycleMetadata findLifecycleMetadata(Class<?> clazz) {
 		if (this.lifecycleMetadataCache == null) {
 			// Happens after deserialization, during destruction...
@@ -249,7 +256,9 @@ public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareB
 		}
 		return metadata;
 	}
-
+    /**
+	 * 构建生命周期元数据
+	 * */
 	private LifecycleMetadata buildLifecycleMetadata(final Class<?> clazz) {
 		if (!AnnotationUtils.isCandidateClass(clazz, Arrays.asList(this.initAnnotationType, this.destroyAnnotationType))) {
 			return this.emptyLifecycleMetadata;
@@ -258,7 +267,7 @@ public class InitDestroyAnnotationBeanPostProcessor implements DestructionAwareB
 		List<LifecycleElement> initMethods = new ArrayList<>();
 		List<LifecycleElement> destroyMethods = new ArrayList<>();
 		Class<?> targetClass = clazz;
-
+        //找到初始化方法和销毁方法  最上级父类的初始化方法放在最前面
 		do {
 			final List<LifecycleElement> currInitMethods = new ArrayList<>();
 			final List<LifecycleElement> currDestroyMethods = new ArrayList<>();
