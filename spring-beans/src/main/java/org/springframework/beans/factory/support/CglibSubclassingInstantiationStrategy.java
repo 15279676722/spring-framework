@@ -149,7 +149,8 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 			if (this.owner instanceof ConfigurableBeanFactory) {
 				ClassLoader cl = ((ConfigurableBeanFactory) this.owner).getBeanClassLoader();
 				enhancer.setStrategy(new ClassLoaderAwareGeneratorStrategy(cl));
-			}//针对LookUp 和Replace 的代理方法会单独写一个对应的执行方法
+			}
+			//针对LookUp 和Replace 的代理方法会单独写一个对应的执行方法
 			enhancer.setCallbackFilter(new MethodOverrideCallbackFilter(beanDefinition));
 			enhancer.setCallbackTypes(CALLBACK_TYPES);
 			return enhancer.createClass();

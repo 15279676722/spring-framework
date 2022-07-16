@@ -40,8 +40,13 @@ public class Student implements Person{
 	@Value("${PATH}")
     private String path;
 
-	@Resource
-	private Banana banana;
+	/**
+	 *
+	 * name :指定注入的beanName
+	 *
+	 * */
+	@Resource()
+	private Banana banana5;
 
 	private Banana banana3;
 
@@ -181,11 +186,11 @@ public class Student implements Person{
 	}
 
 	public Banana getBanana() {
-		return banana;
+		return banana5;
 	}
 
 	public void setBanana(Banana banana) {
-		this.banana = banana;
+		this.banana5 = banana;
 	}
 
 	public Banana getBanana3() {

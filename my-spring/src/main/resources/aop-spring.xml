@@ -8,7 +8,7 @@
            http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
-	<conntext:component-scan base-package="com.example.yq.ioc.messagesource"/>
+	<conntext:component-scan base-package="com.example.yq.aop.config"/>
 	<!--proxy-target-class="false" 默认false JDK动态代理 true:Cglib动态代理 -->
 	<!--expose-proxy 暴露代理 可以直接拿到代理-->
 	<aop:aspectj-autoproxy proxy-target-class="false" expose-proxy="true" >
