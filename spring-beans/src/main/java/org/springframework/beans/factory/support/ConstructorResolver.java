@@ -243,7 +243,8 @@ class ConstructorResolver {
 							if (pnd != null) {
 								paramNames = pnd.getParameterNames(candidate);
 							}
-						}//解析xml参数进行构造方法的赋值操作
+						}
+						//解析xml参数进行构造方法的赋值操作
 						argsHolder = createArgumentArray(beanName, mbd, resolvedValues, bw, paramTypes, paramNames,
 								getUserDeclaredConstructor(candidate), autowiring, candidates.length == 1);
 					}

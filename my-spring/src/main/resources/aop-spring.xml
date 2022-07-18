@@ -9,23 +9,29 @@
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 	<conntext:component-scan base-package="com.example.yq.aop.config"/>
+
 	<!--proxy-target-class="false" 默认false JDK动态代理 true:Cglib动态代理 -->
 	<!--expose-proxy 暴露代理 可以直接拿到代理-->
 	<aop:aspectj-autoproxy proxy-target-class="false" expose-proxy="true" >
 		<!--指定代理-->
 		<aop:include name="aspectJTest"/>
 	</aop:aspectj-autoproxy>
-	<bean id="student" class="com.example.yq.aop.pointcut.Student">
+	<bean id="student" class="com.example.yq.aop.pointcut.Student" depends-on="myBeanFactoryPostProcessor">
 		<constructor-arg name="name1" value="yangqiang"/>
 		<constructor-arg name="id1" value="1"/>
 		<constructor-arg name="age"  value="18"/>
-		<constructor-arg name="job"  ref="job"/>
 		<property name="id" value="2"/>
+		<property name="job"  ref="job"/>
 	</bean>
 
 	<bean class="com.example.yq.aop.pointcut.StudentAutowireMode" id="studentAutowireMode" />
 	<bean id="aspectJTest" class="com.example.yq.aop.config.AspectJTest"/>
-	<bean class="com.example.yq.ioc.lookup.annotation.Banana" id="banana"/>
+	<bean class="com.example.yq.ioc.lookup.annotation.Banana" id="banana" />
+	<bean class="com.example.yq.ioc.lookup.annotation.Banana" id="banana2"/>
+	<bean class="com.example.yq.ioc.lookup.annotation.Banana" id="banana3"/>
+	<bean class="com.example.yq.ioc.lookup.annotation.Banana" id="banana4"/>
+	<bean class="com.example.yq.ioc.lookup.annotation.Banana" id="banana5"/>
+
 	<bean class="com.example.yq.ioc.lookup.annotation.Apple" id="apple"/>
 
 	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
@@ -46,4 +52,5 @@
 	</bean>
 
 	<bean class="com.example.yq.ioc.beanfactory.MyBeanFactoryPostProcessor" id="myBeanFactoryPostProcessor"/>
+
 </beans>

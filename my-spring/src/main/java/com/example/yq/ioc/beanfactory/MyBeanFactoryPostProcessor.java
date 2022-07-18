@@ -19,7 +19,7 @@ public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor  , O
 		System.out.println(personDefinition);
 		// 这里建议不要调用getBean来获取某个类的实例进行一些操作，因为这里get的话，他可能还没有进行属性赋值
 		AbstractBeanDefinition studentAutowireMode = (AbstractBeanDefinition) beanFactory.getBeanDefinition("studentAutowireMode");
-		studentAutowireMode.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
+		studentAutowireMode.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_NAME);
 	}
 
 	@Override

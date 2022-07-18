@@ -122,7 +122,8 @@ public class InjectionMetadata {
 		Collection<InjectedElement> checkedElements = this.checkedElements;
 		Collection<InjectedElement> elementsToIterate =
 				(checkedElements != null ? checkedElements : this.injectedElements);
-		if (!elementsToIterate.isEmpty()) {//��ֵʹ��@Resourceע�������
+		if (!elementsToIterate.isEmpty()) {
+			//@Resource @Autowired @Value 赋值的地方 根据注解修饰方法还是参数 去进行赋值
 			for (InjectedElement element : elementsToIterate) {
 				element.inject(target, beanName, pvs);
 			}

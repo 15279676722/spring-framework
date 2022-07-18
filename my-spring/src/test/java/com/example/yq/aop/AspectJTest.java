@@ -34,6 +34,7 @@ public class AspectJTest {
 		StudentAutowireMode studentAutowireMode =(StudentAutowireMode) context.getBean(StudentAutowireMode.class);
 		System.out.println(studentAutowireMode.toString());
 		Person bean2 = (Person) context.getBean("student");
+		System.out.println(bean2);
 		bean2.say();
 	}
 

@@ -581,7 +581,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		synchronized (mbd.postProcessingLock) {
 			if (!mbd.postProcessed) {
 				try {
-					//解析元数据
+					//解析元数据 并不做bean的注入
 					//1.CommonAnnotationBeanPostProcessor 解析对应的@PostConstruct @PreDestroy @Resource 注解注解元数据
 					//2.AutowiredAnnotationBeanPostProcessor 解析对应的@Autowired @Value 注解元数据
 					//3.ApplicationListenerDetector 找到子接口并加入ApplicationListenerDetector 的单例map中
@@ -612,6 +612,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		Object exposedObject = bean;
 		try {
 			//属性填充
+			//1.执行 InstantiationAwareBeanPostProcessor的postProcessAfterInstantiation方法 根据返回值来决定接下来的属性注入逻辑要不要继续
+			//2.如果配置了注入模式的话byType byName 对bean对象中所有的可注入属性 尝试进行注入 调用set方法注入 没有不注入
+			//3.CommonAnnotationBeanPostProcessor的postProcessProperties方法对@Resource修饰的对象进行注入
+			//4.AutowiredAnnotationBeanPostProcessor的的postProcessProperties方法对@Autowired和@Value修饰的对象或者属性进行注入
 			populateBean(beanName, mbd, instanceWrapper);
 			// 调用初始化方法和后置处理器
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
@@ -1702,7 +1706,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				Object resolvedValue = valueResolver.resolveValueIfNecessary(pv, originalValue);
 				Object convertedValue = resolvedValue;
 				boolean convertible = bw.isWritableProperty(propertyName) &&
-						!PropertyAccessorUtils.isNestedOrIndexedProperty(propertyName);//判断属性是否可以修改 检查给定的属性路径是否指示索引或嵌套属性。
+						!PropertyAccessorUtils.isNestedOrIndexedProperty(propertyName);
+				//判断属性是否可以修改 检查给定的属性路径是否指示索引或嵌套属性。
 				if (convertible) {
 					convertedValue = convertForProperty(resolvedValue, propertyName, bw, converter);
 				}

@@ -596,6 +596,8 @@ public class CommonAnnotationBeanPostProcessor extends InitDestroyAnnotationBean
 		public ResourceElement(Member member, AnnotatedElement ae, @Nullable PropertyDescriptor pd) {
 			super(member, pd);
 			Resource resource = ae.getAnnotation(Resource.class);
+			//如果@Resource有设置name的话 isDefaultName 为false 根据设置的name来进行注入 没有这个beanName会报错
+			//如果不设置 name的话 没有对应的beanName会对Type进行注入
 			String resourceName = resource.name();
 			Class<?> resourceType = resource.type();
 			this.isDefaultName = !StringUtils.hasLength(resourceName);
