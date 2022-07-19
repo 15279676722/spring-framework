@@ -1,12 +1,10 @@
 package com.example.yq.aop.config;
 
 import com.example.yq.aop.pointcut.Student;
+import com.example.yq.aop.pointcut.StudentAutowireMode;
 import com.example.yq.aop.pointcut.StudentB;
 import org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.*;
 
 /**
  * @author yangqiang
@@ -30,9 +28,13 @@ public class AspectJConfig {
 	}
 
 	@Bean
-	@Lazy
 	public StudentB studentB(){
 		return new StudentB();
+	}
+
+	@Bean
+	public StudentAutowireMode studentAutowireMode(){
+		return new StudentAutowireMode();
 	}
 
 	@Bean
@@ -40,10 +42,4 @@ public class AspectJConfig {
 		return new LazyInitTargetSourceCreator();
 	}
 
-//	@Bean
-//	public AnnotationAwareAspectJAutoProxyCreator annotationAwareAspectJAutoProxyCreator(LazyInitTargetSourceCreator lazyInitTargetSourceCreator){
-//		AnnotationAwareAspectJAutoProxyCreator annotationAwareAspectJAutoProxyCreator = new AnnotationAwareAspectJAutoProxyCreator();
-//		annotationAwareAspectJAutoProxyCreator.setCustomTargetSourceCreators(lazyInitTargetSourceCreator);
-//		return annotationAwareAspectJAutoProxyCreator;
-//	}
 }

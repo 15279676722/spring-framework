@@ -4,17 +4,16 @@ package com.example.yq.aop.pointcut;
 import com.example.yq.ioc.lookup.annotation.Apple;
 import com.example.yq.ioc.lookup.annotation.Banana;
 import com.example.yq.ioc.lookup.annotation.Fruit;
-import com.example.yq.ioc.propertyeditor.Content;
 import com.example.yq.ioc.propertyeditor.Job;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Resource;
 import org.springframework.aop.framework.AopContext;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
 
 import java.beans.ConstructorProperties;
 
@@ -22,7 +21,7 @@ import java.beans.ConstructorProperties;
  * @author yangqiang
  * @create 2022-06-13 16:54
  */
-public class Student implements Person {
+public class Student extends MyAware implements Person, InitializingBean {
 
 	private Fruit fruit;
 
@@ -140,12 +139,16 @@ public class Student implements Person {
 	public void testPostConstruct() {
 		System.out.println("Student testPostConstruct");
 	}
-
+    public void initMethod(){
+		System.out.println("Student initMethod()");
+	}
 	@PreDestroy
 	public void testPreDestroy() {
 		System.out.println("Student testPreDestroy");
 	}
-
+	public void destroyMethod(){
+		System.out.println("Student destroyMethod()");
+	}
 
 	public void setFruit(Fruit fruit) {
 		this.fruit = fruit;
@@ -243,4 +246,8 @@ public class Student implements Person {
 	}
 
 
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		System.out.println("student afterPropertiesSet()");
+	}
 }

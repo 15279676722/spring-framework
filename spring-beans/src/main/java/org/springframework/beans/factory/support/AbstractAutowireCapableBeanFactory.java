@@ -318,8 +318,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T> T createBean(Class<T> beanClass) throws BeansException {
-		// Use prototype bean definition, to avoid registering bean as dependent bean.
+	public <T> T createBean(Class<T> beanClass) throws BeansException {// Use prototype bean definition, to avoid registering bean as dependent bean.
 		RootBeanDefinition bd = new RootBeanDefinition(beanClass);
 		bd.setScope(SCOPE_PROTOTYPE);
 		bd.allowCaching = ClassUtils.isCacheSafe(beanClass, getBeanClassLoader());
@@ -618,6 +617,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			//4.AutowiredAnnotationBeanPostProcessor的的postProcessProperties方法对@Autowired和@Value修饰的对象或者属性进行注入
 			populateBean(beanName, mbd, instanceWrapper);
 			// 调用初始化方法和后置处理器
+			//1.执行实现了Aware接口的方法
+			//2.执行BeanPostProcessor的postProcessBeforeInitialization方法
+			//3.执行init-method方法
+			//4.执行BeanPostProcessor的postProcessAfterInitialization方法
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
 		}
 		catch (Throwable ex) {
@@ -1781,10 +1784,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @see #applyBeanPostProcessorsAfterInitialization
 	 */
 	protected Object initializeBean(String beanName, Object bean, @Nullable RootBeanDefinition mbd) {
-		invokeAwareMethods(beanName, bean);//执行Aware接口的方法
+		//执行Aware接口的方法
+		//1.BeanNameAware
+		//2.BeanClassLoaderAware
+		//3.BeanFactoryAware
+		invokeAwareMethods(beanName, bean);
         //postProcessBeforeInitialization
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
+			//1.ApplicationContextAwareProcessor 可以把spring容器中各种属性值 通过实现对应的Aware接口去注入到bean中可以直接使用
+			//2.ImportAwareBeanPostProcessor的Aware注入 @Configuration 后面看看 TODO
+			//3.CommonAnnotationBeanPostProcessor 执行 @PostConstruct修饰的方法
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
@@ -1800,6 +1810,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					beanName, "Invocation of init method failed", ex);
 		}
 		//postProcessAfterInitialization
+		//1.AnnotationAwareAspectJAutoProxyCreator
 		if (mbd == null || !mbd.isSynthetic()) {
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}

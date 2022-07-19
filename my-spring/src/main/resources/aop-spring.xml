@@ -16,7 +16,7 @@
 		<!--指定代理-->
 		<aop:include name="aspectJTest"/>
 	</aop:aspectj-autoproxy>
-	<bean id="student" class="com.example.yq.aop.pointcut.Student" depends-on="myBeanFactoryPostProcessor">
+	<bean id="student" class="com.example.yq.aop.pointcut.Student" init-method="initMethod"  destroy-method="destroyMethod">
 		<constructor-arg name="name1" value="yangqiang"/>
 		<constructor-arg name="id1" value="1"/>
 		<constructor-arg name="age"  value="18"/>
@@ -53,4 +53,8 @@
 
 	<bean class="com.example.yq.ioc.beanfactory.MyBeanFactoryPostProcessor" id="myBeanFactoryPostProcessor"/>
 
+
+	<bean class="com.example.yq.ioc.initbean.InitBean" id="initBean" init-method="initMethod" destroy-method="destroyMethod">
+		<constructor-arg name="name" value="initBean"/>
+	</bean>
 </beans>

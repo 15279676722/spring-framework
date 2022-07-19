@@ -4,6 +4,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
+import org.springframework.core.annotation.Order;
 
 import java.util.Objects;
 
@@ -32,6 +33,7 @@ import java.util.Objects;
  * @author yangqiang
  * @create 2022-05-25 23:03
  */
+@Order(1)
 public class InitBean implements InitializingBean, InstantiationAwareBeanPostProcessor {
 
 
@@ -43,7 +45,7 @@ public class InitBean implements InitializingBean, InstantiationAwareBeanPostPro
 
 	@Override
 	public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
-		if (Objects.equals(beanName, "cat")) {
+		if (Objects.equals(beanName, "cat") || Objects.equals(beanName, "student")) {
 			System.out.println(beanName + "  对象实例化之前操作");
 			System.out.println("InitBean.postProcessBeforeInstantiation");
 		}
@@ -52,7 +54,7 @@ public class InitBean implements InitializingBean, InstantiationAwareBeanPostPro
 
 	@Override
 	public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
-		if (Objects.equals(beanName, "cat")) {
+		if (Objects.equals(beanName, "cat") || Objects.equals(beanName, "student")) {
 			System.out.println(beanName + "  对象实例化之后操作");
 			System.out.println("InitBean.postProcessAfterInstantiation");
 		}
@@ -63,7 +65,7 @@ public class InitBean implements InitializingBean, InstantiationAwareBeanPostPro
 	@Override
 	public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) throws BeansException {
 		//pvs是在xml 配置的<property>标签的集合 在这里可以进行修改
-		if (Objects.equals(beanName, "cat")) {
+		if (Objects.equals(beanName, "cat") || Objects.equals(beanName, "student")) {
 
 			System.out.println(beanName + " 对象实例化之后赋值操作");
 			System.out.println("InitBean.postProcessProperties");
@@ -81,7 +83,7 @@ public class InitBean implements InitializingBean, InstantiationAwareBeanPostPro
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		if (Objects.equals(beanName, "cat")) {
+		if (Objects.equals(beanName, "cat") || Objects.equals(beanName, "student")) {
 
 			System.out.println("beanName = " + beanName + "  Before");
 			System.out.println("InitBean.postProcessBeforeInitialization");
@@ -91,7 +93,7 @@ public class InitBean implements InitializingBean, InstantiationAwareBeanPostPro
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		if (Objects.equals(beanName, "cat")) {
+		if (Objects.equals(beanName, "cat") || Objects.equals(beanName, "student")) {
 
 			System.out.println("beanName = " + beanName + "  After");
 			System.out.println("InitBean.postProcessAfterInitialization");
