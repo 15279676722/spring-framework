@@ -102,7 +102,7 @@ public class Student extends MyAware implements Person, InitializingBean {
 	 * 被LookUp 或者Replaced修饰的bean 在创建bean的时候都会生成一个代理对象
 	 * 代理对象在执行LookUp或者Replaced修饰的方法是会特殊处理
 	 */
-	@Lookup(value = "banana")
+//	@Lookup(value = "banana")
 	Fruit getFruit() {
 		return null;
 	}
