@@ -12,6 +12,7 @@ repositories {
 dependencies {
     implementation(project(":spring-context"))
     implementation(project(":spring-beans"))
+    implementation(project(":spring-tx"))
     testImplementation("org.aspectj:aspectjweaver")
     implementation("org.aspectj:aspectjweaver")
 

@@ -1811,6 +1811,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 		//postProcessAfterInitialization
 		//1.AnnotationAwareAspectJAutoProxyCreator 创建一个代理对象
+		//2.自定义的BeanPostProcessor生效的地方
 		if (mbd == null || !mbd.isSynthetic()) {
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
