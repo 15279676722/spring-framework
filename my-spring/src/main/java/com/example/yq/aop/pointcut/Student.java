@@ -139,7 +139,7 @@ public class Student extends MyAware implements Person, InitializingBean {
 	public void testPostConstruct() {
 		System.out.println("Student testPostConstruct");
 	}
-    public void initMethod(){
+	public void initMethod(){
 		System.out.println("Student initMethod()");
 	}
 	@PreDestroy
