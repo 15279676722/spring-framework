@@ -179,8 +179,8 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 				Node node = nl.item(i);
 				//过滤掉没用的换行符 保留对应xml的元素标签
 				if (node instanceof Element ele) {
-					// default namespace 涉及到的就四个标签 <import />、<alias />、<bean /> 和 <beans />，
-                    // 其他的属于 custom 的
+					// default namespace 涉及到的就四个标签 <import />、<alias />、<bean /> 和 <beans />，其他的属于 custom 的
+                    //
 					if (delegate.isDefaultNamespace(ele)) {
 						parseDefaultElement(ele, delegate);
 					}

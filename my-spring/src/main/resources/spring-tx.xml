@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!--指定注解扫描包路径-->
+    <context:component-scan base-package="com.example.yq.transaction"/>
+
+    <!-- 导入资源文件 -->
+    <context:property-placeholder location="classpath:dbutil.properties"/>
+
+    <!-- 配置dbcp连接池参数 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${driver}" />
+        <property name="url"
+                  value="${url}" />
+        <property name="username" value="${userName}" />
+        <property name="password" value="${password}" />
+        <!-- 连接池启动时的初始值 -->
+        <property name="initialSize" value="${initsize}" />
+        <!-- 连接池的最大值 -->
+        <property name="maxActive" value="${maxsize}" />
+        <!-- 最大空闲值。当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 -->
+        <property name="maxIdle" value="${maxIdle}" />
+        <!-- 最小空闲值。当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请 -->
+        <property name="minIdle" value="${minIdle}" />
+
+
+    </bean>
+
+    <!-- 配置 Spring 的 jdbcTemplate -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 1.配置事务的管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 指定要对哪个数据库进行事务操作 -->
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <!-- 2.配置事务的增强，指定对哪个事务管理器进行增强 -->
+    <tx:advice id="txadvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!--
+                    表示来配置你要增强的方法的匹配的一个规则，
+                    注意：只须改方法的命名规则，其他都是固定的！
+                propagation：事务的传播行为。
+            -->
+            <tx:method name="account*" propagation="REQUIRED"></tx:method>
+            <!-- <tx:method name="insert*" propagation="REQUIRED"></tx:method> -->
+        </tx:attributes>
+    </tx:advice>
+    <!-- 3.配置切入点和切面(最重要的一步) -->
+    <aop:config>
+        <!-- 切入点 -->
+        <aop:pointcut expression="execution(* com.example.yq.transaction.service.AccountService.*(..))" id="pointcut"/>
+        <!-- 切面，即表示把哪个增强用在哪个切入点上 -->
+        <aop:advisor advice-ref="txadvice" pointcut-ref="pointcut"/>
+    </aop:config>
+
+</beans>

@@ -3,6 +3,8 @@ package com.example.yq.aop;
 import com.example.yq.aop.config.AspectJConfig;
 import com.example.yq.aop.pointcut.Person;
 import com.example.yq.aop.pointcut.StudentAutowireMode;
+import com.example.yq.aop.simple.MyAOPBean;
+import com.example.yq.aop.simple.SimpleAspectJConfig;
 import com.example.yq.ioc.bean.UserService;
 import com.example.yq.ioc.config.AnnotationConfig;
 import com.example.yq.ioc.config.BeanConfig;
@@ -38,6 +40,15 @@ public class AspectJTest {
 		System.out.println(bean2);
 		bean2.say();
 	}
+	@Test
+	public void AspectJSimple() {
+		ApplicationContext context =
+				new AnnotationConfigApplicationContext(SimpleAspectJConfig.class);
 
+
+		MyAOPBean bean2 = (MyAOPBean) context.getBean("myAOPBean");
+		System.out.println(bean2);
+		bean2.say("yangq");
+	}
 
 }

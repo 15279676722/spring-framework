@@ -13,10 +13,13 @@ dependencies {
     implementation(project(":spring-context"))
     implementation(project(":spring-beans"))
     implementation(project(":spring-tx"))
+    implementation(project(":spring-jdbc"))
     testImplementation("org.aspectj:aspectjweaver")
     implementation("org.aspectj:aspectjweaver")
 
-
+    implementation 'junit:junit:4.13.2'
+    implementation 'commons-dbcp:commons-dbcp:1.4'
+    implementation 'mysql:mysql-connector-java:5.1.6'
     implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
