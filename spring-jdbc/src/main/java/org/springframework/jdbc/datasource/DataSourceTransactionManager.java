@@ -260,9 +260,10 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 		Connection con = null;
 
 		try {
+			//赋值默认的ConnectionHolder
 			if (!txObject.hasConnectionHolder() ||
 					txObject.getConnectionHolder().isSynchronizedWithTransaction()) {
-				Connection newCon = obtainDataSource().getConnection();
+				Connection newCon = obtainDataSource().getConnection();				// 这里就是调用数据源进行获取 connection 并进行绑定
 				if (logger.isDebugEnabled()) {
 					logger.debug("Acquired Connection [" + newCon + "] for JDBC transaction");
 				}
@@ -271,14 +272,14 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 
 			txObject.getConnectionHolder().setSynchronizedWithTransaction(true);
 			con = txObject.getConnectionHolder().getConnection();
-
+			// 对connection 设置 隔离级别和 是否只读属性
 			Integer previousIsolationLevel = DataSourceUtils.prepareConnectionForTransaction(con, definition);
 			txObject.setPreviousIsolationLevel(previousIsolationLevel);
 			txObject.setReadOnly(definition.isReadOnly());
 
 			// Switch to manual commit if necessary. This is very expensive in some JDBC drivers,
 			// so we don't want to do it unnecessarily (for example if we've explicitly
-			// configured the connection pool to set it already).
+			// configured the connection pool to set it already). 这里就是关闭自动提交， 就是开启事务了，由Spring 控制提交
 			if (con.getAutoCommit()) {
 				txObject.setMustRestoreAutoCommit(true);
 				if (logger.isDebugEnabled()) {
@@ -286,15 +287,15 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 				}
 				con.setAutoCommit(false);
 			}
-
+            // 设置只读事务,就是这事务内没有新增，修改，删除操作只有查询操作，不需要数据库锁等操作，减少数据库压力，还有就是其他事务提交的数据，在"SET TRANSACTION READ ONLY" 是看不到的
 			prepareTransactionalConnection(con, definition);
-			txObject.getConnectionHolder().setTransactionActive(true);
-
+			txObject.getConnectionHolder().setTransactionActive(true);			// 配置 判断当前线程是否有事务的 标志
+			// 设置timeout
 			int timeout = determineTimeout(definition);
 			if (timeout != TransactionDefinition.TIMEOUT_DEFAULT) {
 				txObject.getConnectionHolder().setTimeoutInSeconds(timeout);
 			}
-
+			// 绑定这connection 到当前线程
 			// Bind the connection holder to the thread.
 			if (txObject.isNewConnectionHolder()) {
 				TransactionSynchronizationManager.bindResource(obtainDataSource(), txObject.getConnectionHolder());

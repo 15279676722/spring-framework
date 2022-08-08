@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+<!--指定注解扫描包路径-->
+    <context:component-scan base-package="com.example.yq.transaction"/>
+
+    <!-- 导入资源文件 -->
+    <context:property-placeholder location="classpath:dbutil.properties"/>
+
+    <!-- 配置dbcp连接池参数 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${driver}" />
+        <property name="url"
+                  value="${url}" />
+        <property name="username" value="${userName}" />
+        <property name="password" value="${password}" />
+        <!-- 连接池启动时的初始值 -->
+        <property name="initialSize" value="${initsize}" />
+        <!-- 连接池的最大值 -->
+        <property name="maxActive" value="${maxsize}" />
+        <!-- 最大空闲值。当经过一个高峰时间后，连接池可以慢慢将已经用不到的连接慢慢释放一部分，一直减少到maxIdle为止 -->
+        <property name="maxIdle" value="${maxIdle}" />
+        <!-- 最小空闲值。当空闲的连接数少于阀值时，连接池就会预申请去一些连接，以免洪峰来时来不及申请 -->
+        <property name="minIdle" value="${minIdle}" />
+
+
+    </bean>
+
+    <!-- 配置 Spring 的 jdbcTemplate -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 1.配置事务的管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 指定要对哪个数据库进行事务操作 -->
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+	<!-- 2.开启事务的注解 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+	<!-- 配置 transactionTemplate -->
+	<bean id="transactionTemplate"
+		  class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager">
+			<ref bean="transactionManager"/>
+		</property>
+	</bean>
+
+</beans>

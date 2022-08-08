@@ -180,7 +180,7 @@ public abstract class DataSourceUtils {
 		Assert.notNull(con, "No Connection specified");
 
 		boolean debugEnabled = logger.isDebugEnabled();
-		// Set read-only flag.
+		// Set read-only flag. 设置只读标志
 		if (definition != null && definition.isReadOnly()) {
 			try {
 				if (debugEnabled) {

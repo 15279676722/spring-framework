@@ -19,6 +19,29 @@ package org.springframework.transaction;
 import org.springframework.lang.Nullable;
 
 /**
+ * Mysql不同事务隔离级别会引起的问题
+ * 1.脏读
+ *     脏读就是指当一个事务正在访问数据
+ *     并且对数据进行了修改
+ *     而这种修改还没有提交到数据库中 这时，另外一个事务也访问这个数据，
+ *     然后使用了这个数据（出现在读未提交隔离级别下）
+ *
+ * 2.不可重复度
+ *     是指在一个事务内（前提是在事务中，如果一个session是事务，另一个session不是事务则不影响），多次读同一数据。
+ *     在这个事务还没有结束时，另外一个事务也访问该同一数据。
+ *     那么，在第一个事务中的两次读数据之间，由于第二个事务的修改，那么第一个事务两次读到的的数据可能是不一样的。
+ *     这样就发生了在一个事务内两次读到的数据是不一样的，因此称为是不可重复读。（发生在读提交和读未提交隔离级别下）
+ *
+ * 3.幻读
+ *     第一个事务对一个表中的数据进行了修改，这种修改涉及到表中的全部数据行。
+ *     同时，第二个事务也修改这个表中的数据，这种修改是向表中插入一行新数据。
+ *     那么，以后就会发生操作第一个事务的用户发现表中还有没有修改的数据行，就好象发生了幻觉一样。(发生在读提交和读未提交和可重复读隔离级别下)
+ * Mysql事务隔离级别
+ *   1.读未提交:  事务未提交 可以被其他事务查询到修改结果 产生脏读。
+ *   2.读已提交(不可重复读):  事务提交后才可以被其他事务查询到修改结果
+ *   3.可重复读 : 一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当然在可重复读隔离级别下，未提交变更对其他事务也是不可见的。
+ *   4.串行化: 所有事务串行执行 其他事务阻塞。
+ *
  * Interface that defines Spring-compliant transaction properties.
  * Based on the propagation behavior definitions analogous to EJB CMT attributes.
  *
@@ -133,6 +156,7 @@ public interface TransactionDefinition {
 
 
 	/**
+	 * 默认的事务隔离级别
 	 * Use the default isolation level of the underlying datastore.
 	 * All other levels correspond to the JDBC isolation levels.
 	 * @see java.sql.Connection
