@@ -10,7 +10,10 @@
 <!--指定注解扫描包路径-->
     <context:component-scan base-package="com.example.yq.transaction"/>
 
-    <!-- 导入资源文件 -->
+	<bean id="aspectJTest" class="com.example.yq.aop.config.AspectJTest"/>
+
+
+	<!-- 导入资源文件 -->
     <context:property-placeholder location="classpath:dbutil.properties"/>
 
     <!-- 配置dbcp连接池参数 -->

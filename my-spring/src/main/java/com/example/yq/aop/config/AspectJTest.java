@@ -2,15 +2,18 @@ package com.example.yq.aop.config;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+
 /**
  * @see AfterReturning
  * @see AfterThrowing
  * 有时间研究这两个的作用
  * */
 @Aspect
+@EnableAspectJAutoProxy(exposeProxy = true)
 public class AspectJTest {
 
-	@Pointcut("execution(public void com.example.yq.aop.pointcut.Person.say(..)) )")
+	@Pointcut("execution(* com.example.yq.transaction.service.AccountService.accountBalance(..)) )")
 	public void test(){}
 
 	@Before("test()")
