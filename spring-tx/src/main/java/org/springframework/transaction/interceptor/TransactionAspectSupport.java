@@ -398,7 +398,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 				// This will normally result in a target object being invoked.
 				retVal = invocation.proceedWithInvocation();
 			} catch (Throwable ex) {
-				// target invocation exception
+				// 异常事务回滚 或者非指定异常事务提交
 				completeTransactionAfterThrowing(txInfo, ex);
 				throw ex;
 			} finally {
@@ -412,7 +412,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 					retVal = VavrDelegate.evaluateTryFailure(retVal, txAttr, status);
 				}
 			}
-
+            //提交事务
 			commitTransactionAfterReturning(txInfo);
 			return retVal;
 		}

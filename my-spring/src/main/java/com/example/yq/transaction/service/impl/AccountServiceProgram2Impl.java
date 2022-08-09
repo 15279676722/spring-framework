@@ -22,7 +22,7 @@ public class AccountServiceProgram2Impl implements AccountService {
 	private PlatformTransactionManager platformTransactionManager;
 
 	@Override
-	public void accountBalance(int lessenId, int addId, double balance) {
+	public double accountBalance(int lessenId, int addId, double balance) {
 		TransactionStatus transaction = platformTransactionManager.getTransaction(new DefaultTransactionDefinition());
 
 
@@ -36,6 +36,8 @@ public class AccountServiceProgram2Impl implements AccountService {
 		int a = 5 / 0;
 
 		platformTransactionManager.commit(transaction);
+		return balance;
+
 	}
 
 

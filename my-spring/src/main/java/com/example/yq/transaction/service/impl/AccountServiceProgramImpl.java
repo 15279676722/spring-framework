@@ -22,7 +22,7 @@ public class AccountServiceProgramImpl implements AccountService {
 	private TransactionTemplate transactionTemplate;
 
 	@Override
-	public void accountBalance(int lessenId, int addId, double balance) {
+	public double accountBalance(int lessenId, int addId, double balance) {
 		transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
 			@Override
@@ -38,6 +38,7 @@ public class AccountServiceProgramImpl implements AccountService {
 
 			}
 		});
+		return balance;
 
 	}
 

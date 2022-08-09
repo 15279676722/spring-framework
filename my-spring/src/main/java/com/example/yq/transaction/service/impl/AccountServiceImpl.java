@@ -11,7 +11,7 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	AccountDao accountDao;
 	@Override
-	public void accountBalance(int lessenId, int addId, double balance) {
+	public double accountBalance(int lessenId, int addId, double balance) {
 		//某个账号减少金额
 		accountDao.lessenBalance(lessenId, balance);
 
@@ -20,6 +20,8 @@ public class AccountServiceImpl implements AccountService {
 
 		//模拟出现异常
 		int a=5/0;
+		return balance;
+
 	}
 
 }

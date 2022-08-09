@@ -211,6 +211,9 @@ public @interface Transactional {
 	boolean readOnly() default false;
 
 	/**
+	 * 默认只会回滚运行时异常和error
+	 * 如果需要回滚所有异常需要加上 这个属性Exception.class
+	 *
 	 * Defines zero (0) or more exception {@linkplain Class types}, which must be
 	 * subclasses of {@link Throwable}, indicating which exception types must cause
 	 * a transaction rollback.

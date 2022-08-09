@@ -337,7 +337,7 @@ public abstract class AopUtils {
 	public static Object invokeJoinpointUsingReflection(@Nullable Object target, Method method, Object[] args)
 			throws Throwable {
 
-		// Use reflection to invoke the method.
+		// 使用反射来调用方法
 		try {
 			ReflectionUtils.makeAccessible(method);
 			return method.invoke(target, args);

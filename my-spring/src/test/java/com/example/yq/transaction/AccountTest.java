@@ -10,11 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.io.IOException;
+
 public class AccountTest {
 
 
     @Test
-    public void testAccountXml() {
+    public void testAccountXml() throws IOException {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-tx.xml");
         AccountService accService = ctx.getBean("accountServiceImpl", AccountService.class);
         //从id为1的用户转账给id为2的用户500元
@@ -22,7 +24,7 @@ public class AccountTest {
     }
 
 	@Test
-	public void testAccountAnnotation() {
+	public void testAccountAnnotation() throws IOException {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-tx-anno.xml");
 		AccountService accService = ctx.getBean("accountServiceAnnoImpl", AccountService.class);
 		//从id为1的用户转账给id为2的用户500元
@@ -30,7 +32,7 @@ public class AccountTest {
 	}
 
 	@Test
-	public void testAccountProgram() {
+	public void testAccountProgram() throws IOException {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-tx-anno.xml");
 		AccountService accService = ctx.getBean("accountServiceProgramImpl", AccountService.class);
 		//从id为1的用户转账给id为2的用户500元
@@ -38,7 +40,7 @@ public class AccountTest {
 	}
 
 	@Test
-	public void testAccountProgram2() {
+	public void testAccountProgram2() throws IOException {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-tx-anno.xml");
 		AccountService accService = ctx.getBean("accountServiceProgram2Impl", AccountService.class);
 		//从id为1的用户转账给id为2的用户500元
