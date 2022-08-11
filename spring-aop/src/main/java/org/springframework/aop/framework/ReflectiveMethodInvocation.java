@@ -181,6 +181,13 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 		else {
 			// It's an interceptor, so we just invoke it: The pointcut will have
 			// been evaluated statically before this object was constructed.
+			// 1.ExposeInvocationInterceptor 把当前AOP对象放到线程对象中 可以通过AopContext.currentProxy()得到
+			// 2.TransactionInterceptor 事务拦截器 执行事务 操作并监控后续的AOP增强操作报错随时可以回滚
+			// 3.AspectJAroundAdvice  AOP的around操作 在 proceed方法前后实现before 和after操作
+			// 4.MethodBeforeAdviceInterceptor  @Before 实现AOP前置操作
+			// 5.AspectJAfterAdvice @After实现AOP后置操作
+			// 6.AfterReturningAdviceInterceptor
+			// 7.AspectJAfterThrowingAdvice
 			return ((MethodInterceptor) interceptorOrInterceptionAdvice).invoke(this);
 		}
 	}
