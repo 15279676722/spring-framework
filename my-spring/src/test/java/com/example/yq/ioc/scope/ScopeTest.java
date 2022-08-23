@@ -4,6 +4,7 @@ import com.example.yq.ioc.initproperty.MyClassPathXmlApplicationContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.request.RequestScope;
 
 import java.util.concurrent.TimeUnit;
 
@@ -41,7 +42,7 @@ public class ScopeTest {
 
 		//向容器中注册自定义的scope
 		context.getBeanFactory().registerScope(MyScope.THREAD_SCOPE, new MyScope());//@1
-
+		context.getBeanFactory().registerScope("request",new RequestScope());
 		//使用容器获取bean
 		for (int i = 0; i < 2; i++) { //@2
 			new Thread(() -> {

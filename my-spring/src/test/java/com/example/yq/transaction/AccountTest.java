@@ -49,5 +49,16 @@ public class AccountTest {
 
 
 
+	@Test
+	public void testTransactionalFail() throws IOException {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-tx-anno.xml");
+		AccountService accService = ctx.getBean("accountServiceAnnoFailImpl", AccountService.class);
+		//从id为1的用户转账给id为2的用户500元
+		accService.accountBalance(1, 2, 500);
+	}
+
+
+
+
 
 }
