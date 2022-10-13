@@ -1,5 +1,6 @@
 package com.example.yq.ioc.initbean;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.InitializingBean;
@@ -18,6 +19,8 @@ import java.util.Objects;
  * <p>
  * postProcessBeforeInitialization()
  * <p>
+ * postConstruct()
+ *
  * afterPropertiesSet()
  * <p>
  * init-method()
@@ -99,6 +102,11 @@ public class InitBean implements InitializingBean, InstantiationAwareBeanPostPro
 			System.out.println("InitBean.postProcessAfterInitialization");
 		}
 		return bean;
+	}
+
+	@PostConstruct
+	public void postConstruct(){
+		System.out.println("postConstruct bean");
 	}
 
 	public void initMethod() {

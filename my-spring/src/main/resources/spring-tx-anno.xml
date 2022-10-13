@@ -10,7 +10,7 @@
 <!--指定注解扫描包路径-->
     <context:component-scan base-package="com.example.yq.transaction"/>
 
-	<bean id="aspectJTest" class="com.example.yq.aop.config.AspectJTest"/>
+<!--	<bean id="aspectJTest" class="com.example.yq.aop.config.AspectJTest"/>-->
 
 
 	<!-- 导入资源文件 -->

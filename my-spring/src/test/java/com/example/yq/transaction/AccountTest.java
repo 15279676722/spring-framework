@@ -47,7 +47,9 @@ public class AccountTest {
 		accService.accountBalance(1, 2, 500);
 	}
 
-
+    /**
+	 * transactionl失效场景1
+	 * */
 
 	@Test
 	public void testTransactionalFail() throws IOException {

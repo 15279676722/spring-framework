@@ -20,7 +20,7 @@ public class BeansTest {
 						//为age字段添加PropertyEditor
 						//String->Integer
 						item.setPropertyEditorClass(StringToIntegerPropertyEditor.class);
-						item.createPropertyEditor()
+//						item.createPropertyEditor()
 					}
 				});
 	}
