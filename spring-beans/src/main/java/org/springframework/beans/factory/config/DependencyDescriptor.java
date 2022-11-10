@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2002-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,19 +52,22 @@ public class DependencyDescriptor extends InjectionPoint implements Serializable
 
 	private final Class<?> declaringClass;
 
+	/**注入方法名称*/
 	@Nullable
 	private String methodName;
 
+	/**构造器注入参数名称*/
 	@Nullable
 	private Class<?>[] parameterTypes;
-
+    /**参数索引*/
 	private int parameterIndex;
-
+	/**字段注入字段名称*/
 	@Nullable
 	private String fieldName;
 
+	/**是否必须*/
 	private final boolean required;
-
+    /**是否Lazy*/
 	private final boolean eager;
 
 	private int nestingLevel = 1;

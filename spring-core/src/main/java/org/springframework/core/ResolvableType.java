@@ -26,11 +26,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.IdentityHashMap;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
 
 import org.springframework.core.SerializableTypeWrapper.FieldTypeProvider;
 import org.springframework.core.SerializableTypeWrapper.MethodParameterTypeProvider;
@@ -82,6 +78,7 @@ import org.springframework.util.StringUtils;
  */
 @SuppressWarnings("serial")
 public class ResolvableType implements Serializable {
+
 
 	/**
 	 * {@code ResolvableType} returned when no value is available. {@code NONE} is used

@@ -555,7 +555,8 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 				if (InjectionMetadata.needsRefresh(metadata, clazz)) {
 					if (metadata != null) {
 						metadata.clear(pvs);
-					}//构建注入元数据
+					}
+					//构建注入元数据
 					metadata = buildAutowiringMetadata(clazz);
 					this.injectionMetadataCache.put(cacheKey, metadata);
 				}
@@ -576,7 +577,8 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 			final List<InjectionMetadata.InjectedElement> currElements = new ArrayList<>();
 
 			ReflectionUtils.doWithLocalFields(targetClass, field -> {
-				MergedAnnotation<?> ann = findAutowiredAnnotation(field);//找到注入类型的注解
+				MergedAnnotation<?> ann = findAutowiredAnnotation(field);
+				//找到注入类型的注解
 				if (ann != null) {
 					if (Modifier.isStatic(field.getModifiers())) {
 						if (logger.isInfoEnabled()) {

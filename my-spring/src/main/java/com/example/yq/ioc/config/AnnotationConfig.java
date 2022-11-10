@@ -5,6 +5,11 @@ import com.example.yq.ioc.service.SetterBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.ResolvableType;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -53,4 +58,6 @@ public class AnnotationConfig {
 		setterBean.setService(serviceB);
 		return setterBean;
 	}
+
+
 }
