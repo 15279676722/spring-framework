@@ -634,14 +634,24 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			 * 2.创建新的 BeanFactory
 			 * 3.设置 BeanFactory 的两个配置属性：是否允许 Bean 覆盖、是否允许循环引用
 			 * 4.加载 BeanDefinition、注册 BeanDefinition 等等
+			 * 5.取到已经创建好并且初始化的beanFactory
 			 * */
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
+
+
 
 			// 设置 BeanFactory 的类加载器，添加几个 BeanPostProcessor，手动注册几个特殊的 bean
 			/**
 			 * 1.注册SPEL表达式的解析策略。
 			 * 2.注册属性编辑器ResourceEditorRegistrar
-			 * 3.添加BeanPostProcessor ApplicationContextAwareProcessor
+			 * 3.添加BeanPostProcessor ApplicationContextAwareProcessor 实现Aware接口的时候注入对应的bean
+			 *   1.EnvironmentAware
+			 *   2.EmbeddedValueResolverAware
+			 *   3.ResourceLoaderAware
+			 *   4.ApplicationEventPublisherAware
+			 *   5.MessageSourceAware
+			 *   6.ApplicationContextAware
+			 *   7.ApplicationStartupAware
 			 * 4.添加自动装配依赖忽略的接口7种Aware接口
 			 * 5.预置内部依赖BeanFactory ResourceLoader ApplicationEventPublisher ApplicationContext
 			 * 6.添加BeanPostProcessor ApplicationListenerDetector
@@ -784,6 +794,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// Store pre-refresh ApplicationListeners...
 		// 存储预刷新应用监听 方便扩展 SpringBoot源码中applicationListeners是有对应的监听器的
+		// 早期事件监听器还没有进行初始化的时候 来进行存储早期事件  监听器初始化完成后发送早期事件
 		if (this.earlyApplicationListeners == null) {
 			this.earlyApplicationListeners = new LinkedHashSet<>(this.applicationListeners);
 		} else {
@@ -834,6 +845,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			//SpEL表达式解析器
 			beanFactory.setBeanExpressionResolver(new StandardBeanExpressionResolver(beanFactory.getBeanClassLoader()));
 		}
+		//注册属性编辑器ResourceEditorRegistrar
 		beanFactory.addPropertyEditorRegistrar(new ResourceEditorRegistrar(this, getEnvironment()));
 
 		// Configure the bean factory with context callbacks.
@@ -1048,6 +1060,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Publish early application events now that we finally have a multicaster...
 		Set<ApplicationEvent> earlyEventsToProcess = this.earlyApplicationEvents;
 		this.earlyApplicationEvents = null;
+		//注册监听器的时候把早期事件进行发布
 		if (!CollectionUtils.isEmpty(earlyEventsToProcess)) {
 			for (ApplicationEvent earlyEvent : earlyEventsToProcess) {
 				getApplicationEventMulticaster().multicastEvent(earlyEvent);

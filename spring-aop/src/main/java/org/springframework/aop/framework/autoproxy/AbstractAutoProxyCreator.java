@@ -338,7 +338,9 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 			return bean;
 		}
 
-		// Create proxy if we have advice. 获取拦截器
+		// Create proxy if we have advice. 获取配置了动态代理的增强器
+		// 1.AbstractAdvisorAutoProxyCreator
+		// 2.BeanNameAutoProxyCreator-->DefaultAdvisorAutoProxyCreator
 		Object[] specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass(), beanName, null);
 		if (specificInterceptors != DO_NOT_PROXY) {
 			this.advisedBeans.put(cacheKey, Boolean.TRUE);
@@ -427,9 +429,11 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	/**
 	 * Create an AOP proxy for the given bean.
 	 * @param beanClass the class of the bean
+	 *
 	 * @param beanName the name of the bean
 	 * @param specificInterceptors the set of interceptors that is
 	 * specific to this bean (may be empty, but not null)
+	 * @param specificInterceptors  Advisor 数组
 	 * @param targetSource the TargetSource for the proxy,
 	 * already pre-configured to access the bean
 	 * @return the AOP proxy for the bean
@@ -455,20 +459,28 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 			}
 		}
 		else {
+			//检查beanDefinition中是否包含preserveTargetClass属性，且属性为true
+			//设置是否使用CGLib进行代理
 			// No proxyTargetClass flag enforced, let's apply our default checks...
 			if (shouldProxyTargetClass(beanClass, beanName)) {
 				proxyFactory.setProxyTargetClass(true);
 			}
 			else {
+				//过滤接口中主要功能是，帮助判断是否使用JDK的动态代理来创建代理。
+				// 因为JDK动态代理的条件是bean实现了接口，所以Spring会将目标bean实现的接口过滤后添加到ProxyFactory中，
+				// 方便判断是否使用JDK动态代理，下面是evaluateProxyInterfaces实现
 				evaluateProxyInterfaces(beanClass, proxyFactory);
 			}
 		}
-
+        //获取增强器（包括前面筛选出来的增强器，以及通过setInterceptorNames中添加的通用增强器，默认为空）
 		Advisor[] advisors = buildAdvisors(beanName, specificInterceptors);
+		//将所有增强器添加到proxyFactory
 		proxyFactory.addAdvisors(advisors);
+		//设置需要代理的bean对象信息
 		proxyFactory.setTargetSource(targetSource);
+		//模版方法，由子类定制化代理
 		customizeProxyFactory(proxyFactory);
-
+		//用来控制代理工程被配置后，是否还允许修改代理的配置,默认为false
 		proxyFactory.setFrozen(this.freezeProxy);
 		if (advisorsPreFiltered()) {
 			proxyFactory.setPreFiltered(true);
@@ -479,6 +491,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		if (classLoader instanceof SmartClassLoader && classLoader != beanClass.getClassLoader()) {
 			classLoader = ((SmartClassLoader) classLoader).getOriginalClassLoader();
 		}
+		//创建代理对象
 		return proxyFactory.getProxy(classLoader);
 	}
 

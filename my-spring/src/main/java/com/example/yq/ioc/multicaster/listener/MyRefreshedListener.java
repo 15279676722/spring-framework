@@ -13,4 +13,5 @@ public class MyRefreshedListener implements ApplicationListener<ContextRefreshed
         // 自己的逻辑处理
 		System.out.println("自己的接收器");
     }
+
 }

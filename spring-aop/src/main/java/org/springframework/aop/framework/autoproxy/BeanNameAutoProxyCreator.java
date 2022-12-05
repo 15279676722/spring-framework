@@ -109,15 +109,18 @@ public class BeanNameAutoProxyCreator extends AbstractAutoProxyCreator {
 	 * @see #setBeanNames(String...)
 	 */
 	private boolean isSupportedBeanName(Class<?> beanClass, String beanName) {
+		// 找到配置的beanName 集合 去和当前bean进行匹配  匹配上的话创建代理bean
 		if (this.beanNames != null) {
 			boolean isFactoryBean = FactoryBean.class.isAssignableFrom(beanClass);
 			for (String mappedName : this.beanNames) {
+				//如果是 工厂bean的话 去掉&来进行匹配
 				if (isFactoryBean) {
 					if (!mappedName.startsWith(BeanFactory.FACTORY_BEAN_PREFIX)) {
 						continue;
 					}
 					mappedName = mappedName.substring(BeanFactory.FACTORY_BEAN_PREFIX.length());
 				}
+				//根据规则匹配
 				if (isMatch(beanName, mappedName)) {
 					return true;
 				}
@@ -125,6 +128,7 @@ public class BeanNameAutoProxyCreator extends AbstractAutoProxyCreator {
 
 			BeanFactory beanFactory = getBeanFactory();
 			String[] aliases = (beanFactory != null ? beanFactory.getAliases(beanName) : NO_ALIASES);
+			//beanName匹配不上的话根据别名进行匹配
 			for (String alias : aliases) {
 				for (String mappedName : this.beanNames) {
 					if (isMatch(alias, mappedName)) {

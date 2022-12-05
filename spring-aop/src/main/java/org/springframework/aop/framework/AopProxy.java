@@ -42,6 +42,10 @@ public interface AopProxy {
 
 	/**
 	 * Create a new proxy object.
+	 * 根据条件去判断使用cgLib代理还是 jdk动态代理
+	 * 一般默认为jdk动态代理。
+	 * 我们可以强制使用CGLIB，指定proxy-target-class = "true"
+	 * 或者 基于注解@EnableAspectJAutoProxy(proxyTargetClass = true)
 	 * <p>Uses the given class loader (if necessary for proxy creation).
 	 * {@code null} will simply be passed down and thus lead to the low-level
 	 * proxy facility's default, which is usually different from the default chosen

@@ -96,9 +96,11 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 	protected List<Advisor> findEligibleAdvisors(Class<?> beanClass, String beanName) {
 		//该方法从容器(包含父容器)中找到并返回所有类型为org.springframework.aop.Advisor且创建完成的bean
 		List<Advisor> candidateAdvisors = findCandidateAdvisors();
-		//
+		//找到当前bean可以应用的Advisor
 		List<Advisor> eligibleAdvisors = findAdvisorsThatCanApply(candidateAdvisors, beanClass, beanName);
+		//子类扩展
 		extendAdvisors(eligibleAdvisors);
+		//对Advisor进行排序 实现 PriorityOrdered>Ordered
 		if (!eligibleAdvisors.isEmpty()) {
 			eligibleAdvisors = sortAdvisors(eligibleAdvisors);
 		}
