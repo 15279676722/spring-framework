@@ -102,6 +102,8 @@ public abstract class MethodMatchers {
 
 	/**
 	 * MethodMatcher implementation for a union of two given MethodMatchers.
+	 * 并集方法匹配 只要 mm1 mm2 任意满足一个就可以
+	 *
 	 */
 	@SuppressWarnings("serial")
 	private static class UnionMethodMatcher implements MethodMatcher, Serializable {

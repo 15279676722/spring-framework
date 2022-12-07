@@ -76,6 +76,11 @@ public class ThrowsAdviceInterceptor implements MethodInterceptor, AfterAdvice {
 		Assert.notNull(throwsAdvice, "Advice must not be null");
 		this.throwsAdvice = throwsAdvice;
 
+		//可以定义多种 exception的捕获方法
+		//方法名要 afterThrowing开头 参数为1个或者4个
+		//最后一个参数要是Throwable类型的
+		//如果定义相同得Throwable类型会被覆盖
+
 		Method[] methods = throwsAdvice.getClass().getMethods();
 		for (Method method : methods) {
 			if (method.getName().equals(AFTER_THROWING) &&

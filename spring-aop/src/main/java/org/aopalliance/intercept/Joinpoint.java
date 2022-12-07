@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
  * method, a constructor, a field), i.e. the static part of the
  * joinpoint. It is passed to the interceptors that are installed on
  * the static joinpoint.
- *
+ * 连接点 有构造器连接 和 方法连接 spring只支持方法连接
  * @author Rod Johnson
  * @see Interceptor
  */

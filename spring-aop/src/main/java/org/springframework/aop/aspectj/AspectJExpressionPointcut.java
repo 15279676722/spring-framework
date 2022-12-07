@@ -80,6 +80,7 @@ import org.springframework.util.StringUtils;
  * @author Ramnivas Laddad
  * @author Dave Syer
  * @since 2.0
+ * spring2.0以后引入AspectJ
  */
 @SuppressWarnings("serial")
 public class AspectJExpressionPointcut extends AbstractExpressionPointcut

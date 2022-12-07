@@ -38,6 +38,9 @@ import org.springframework.util.Assert;
 @SuppressWarnings("serial")
 public class AfterReturningAdviceInterceptor implements MethodInterceptor, AfterAdvice, Serializable {
 
+	/**
+	 * 一般由用户自己实现
+	 * */
 	private final AfterReturningAdvice advice;
 
 
