@@ -46,6 +46,8 @@ import org.springframework.util.ClassUtils;
  * @see AdvisedSupport#setOptimize
  * @see AdvisedSupport#setProxyTargetClass
  * @see AdvisedSupport#setInterfaces
+ *
+ * 设计模式--策略模式
  */
 public class DefaultAopProxyFactory implements AopProxyFactory, Serializable {
 

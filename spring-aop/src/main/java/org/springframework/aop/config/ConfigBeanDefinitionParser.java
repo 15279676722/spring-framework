@@ -58,6 +58,9 @@ import org.springframework.util.xml.DomUtils;
  * @author Mark Fisher
  * @author Ramnivas Laddad
  * @since 2.0
+ *
+ * 设计模式--策略模式
+ * @see ConfigBeanDefinitionParser#getAdviceClass(org.w3c.dom.Element, org.springframework.beans.factory.xml.ParserContext)
  */
 class ConfigBeanDefinitionParser implements BeanDefinitionParser {
 

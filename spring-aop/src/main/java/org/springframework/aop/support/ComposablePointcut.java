@@ -34,7 +34,7 @@ import org.springframework.util.Assert;
  *                      .union(classFilter)
  *                      .intersection(methodMatcher)
  *                      .intersection(pointcut);</pre>
- *
+ * 设计模式--组合模式
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Rob Harrop

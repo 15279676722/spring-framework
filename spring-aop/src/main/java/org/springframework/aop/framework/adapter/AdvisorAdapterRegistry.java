@@ -24,7 +24,9 @@ import org.springframework.aop.Advisor;
  * Interface for registries of Advisor adapters.
  *
  * <p><i>This is an SPI interface, not to be implemented by any Spring user.</i>
+ * 设计模式--享元模式
  *
+ * 共享数据信息 类似缓存
  * @author Rod Johnson
  * @author Rob Harrop
  */

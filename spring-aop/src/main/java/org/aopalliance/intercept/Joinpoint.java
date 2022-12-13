@@ -39,6 +39,9 @@ import javax.annotation.Nullable;
  * 连接点 有构造器连接 和 方法连接 spring只支持方法连接
  * @author Rod Johnson
  * @see Interceptor
+ *
+ * 设计模式--命令模式
+ * @see Joinpoint#proceed()
  */
 public interface Joinpoint {
 

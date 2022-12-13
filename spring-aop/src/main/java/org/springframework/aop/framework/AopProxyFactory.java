@@ -37,7 +37,7 @@ package org.springframework.aop.framework;
  * If they do not permit advice changes (for example, because
  * the configuration was frozen) a proxy should throw an
  * {@link AopConfigException} on an attempted advice change.
- *
+ * 设计模式--抽象工厂模式
  * @author Rod Johnson
  * @author Juergen Hoeller
  */

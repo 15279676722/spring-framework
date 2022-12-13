@@ -33,7 +33,7 @@ import org.springframework.util.Assert;
 /**
  * Helper for retrieving @AspectJ beans from a BeanFactory and building
  * Spring Advisors based on them, for use with auto-proxying.
- *
+ * 设计模式--建造者模式
  * @author Juergen Hoeller
  * @since 2.0.2
  * @see AnnotationAwareAspectJAutoProxyCreator
@@ -100,7 +100,8 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 						Class<?> beanType = this.beanFactory.getType(beanName, false);
 						if (beanType == null) {
 							continue;
-						}//是否带有@Aspect 和非ajc编译的类
+						}
+						//是否带有@Aspect 和非ajc编译的类
 						if (this.advisorFactory.isAspect(beanType)) {
 							aspectNames.add(beanName);
 							AspectMetadata amd = new AspectMetadata(beanType, beanName);//创建切面元数据

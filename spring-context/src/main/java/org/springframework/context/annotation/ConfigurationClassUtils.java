@@ -81,6 +81,7 @@ abstract class ConfigurationClassUtils {
 	 * @param beanDef the bean definition to check
 	 * @param metadataReaderFactory the current factory in use by the caller
 	 * @return whether the candidate qualifies as (any kind of) configuration class
+	 * 校验BeanDefinition是不是配置类
 	 */
 	public static boolean checkConfigurationClassCandidate(
 			BeanDefinition beanDef, MetadataReaderFactory metadataReaderFactory) {
@@ -122,10 +123,18 @@ abstract class ConfigurationClassUtils {
 			}
 		}
 
+		// 获取 Configuration 注解的属性信息，配置类分两种
+		// 1、被 @Configuration 标记的配置类为 full，full 的配置类会生成代理对象
+		// 2、其他的配置类为 lite
 		Map<String, Object> config = metadata.getAnnotationAttributes(Configuration.class.getName());
+		// proxyBeanMethods 默认值为 true
 		if (config != null && !Boolean.FALSE.equals(config.get("proxyBeanMethods"))) {
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_FULL);
 		}
+		// 注意，并不是说没有 @Configuration 注解，当前 BeanDefinition 就不是一个配置类
+		// 还要注意 isConfigurationCandidate 方法，会检查是否存在
+		// @Component， @ComponentScan，@Import，@ImportResource，@Bean注解
+		// 只是配置类类型为 lite
 		else if (config != null || isConfigurationCandidate(metadata)) {
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_LITE);
 		}

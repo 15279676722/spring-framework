@@ -49,8 +49,8 @@ import org.springframework.core.type.filter.TypeFilter;
  * @author Chris Beams
  * @author Juergen Hoeller
  * @author Sam Brannen
- * @since 3.1
  * @see Configuration
+ * @since 3.1
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
@@ -63,6 +63,8 @@ public @interface ComponentScan {
 	 * <p>Allows for more concise annotation declarations if no other attributes
 	 * are needed &mdash; for example, {@code @ComponentScan("org.my.pkg")}
 	 * instead of {@code @ComponentScan(basePackages = "org.my.pkg")}.
+	 * <p>
+	 * 对应的包扫描路径 可以是单个路径，也可以是扫描的路径数组
 	 */
 	@AliasFor("basePackages")
 	String[] value() default {};
@@ -73,11 +75,13 @@ public @interface ComponentScan {
 	 * attribute.
 	 * <p>Use {@link #basePackageClasses} for a type-safe alternative to
 	 * String-based package names.
+	 * 和value一样是对应的包扫描路径 可以是单个路径，也可以是扫描的路径数组
 	 */
 	@AliasFor("value")
 	String[] basePackages() default {};
 
 	/**
+	 * 扫描类所在的包
 	 * Type-safe alternative to {@link #basePackages} for specifying the packages
 	 * to scan for annotated components. The package of each class specified will be scanned.
 	 * <p>Consider creating a special no-op marker class or interface in each package
@@ -86,6 +90,7 @@ public @interface ComponentScan {
 	Class<?>[] basePackageClasses() default {};
 
 	/**
+	 * 对应的bean名称的生成器 默认的是BeanNameGenerator
 	 * The {@link BeanNameGenerator} class to be used for naming detected components
 	 * within the Spring container.
 	 * <p>The default value of the {@link BeanNameGenerator} interface itself indicates
@@ -93,6 +98,7 @@ public @interface ComponentScan {
 	 * use its inherited bean name generator, e.g. the default
 	 * {@link AnnotationBeanNameGenerator} or any custom instance supplied to the
 	 * application context at bootstrap time.
+	 *
 	 * @see AnnotationConfigApplicationContext#setBeanNameGenerator(BeanNameGenerator)
 	 * @see AnnotationBeanNameGenerator
 	 * @see FullyQualifiedAnnotationBeanNameGenerator
@@ -100,21 +106,25 @@ public @interface ComponentScan {
 	Class<? extends BeanNameGenerator> nameGenerator() default BeanNameGenerator.class;
 
 	/**
+	 * 处理检测到的bean的scope范围
 	 * The {@link ScopeMetadataResolver} to be used for resolving the scope of detected components.
 	 */
 	Class<? extends ScopeMetadataResolver> scopeResolver() default AnnotationScopeMetadataResolver.class;
 
 	/**
+	 * 是否为检测到的bean生成代理
 	 * Indicates whether proxies should be generated for detected components, which may be
 	 * necessary when using scopes in a proxy-style fashion.
 	 * <p>The default is defer to the default behavior of the component scanner used to
 	 * execute the actual scan.
 	 * <p>Note that setting this attribute overrides any value set for {@link #scopeResolver}.
+	 *
 	 * @see ClassPathBeanDefinitionScanner#setScopedProxyMode(ScopedProxyMode)
 	 */
 	ScopedProxyMode scopedProxy() default ScopedProxyMode.DEFAULT;
 
 	/**
+	 * 控制符合组件检测条件的类文件   默认是包扫描下的
 	 * Controls the class files eligible for component detection.
 	 * <p>Consider use of {@link #includeFilters} and {@link #excludeFilters}
 	 * for a more flexible approach.
@@ -122,32 +132,44 @@ public @interface ComponentScan {
 	String resourcePattern() default ClassPathScanningCandidateComponentProvider.DEFAULT_RESOURCE_PATTERN;
 
 	/**
+	 * 是否对带有@Component @Repository @Service @Controller注解的类开启检测,默认是开启的
 	 * Indicates whether automatic detection of classes annotated with {@code @Component}
 	 * {@code @Repository}, {@code @Service}, or {@code @Controller} should be enabled.
 	 */
 	boolean useDefaultFilters() default true;
 
 	/**
+	 * 指定某些定义Filter满足条件的组件 FilterType有5种类型如：
+	 * ANNOTATION, 注解类型 默认
+	 * ASSIGNABLE_TYPE,指定固定类
+	 * ASPECTJ， ASPECTJ类型
+	 * REGEX,正则表达式
+	 * CUSTOM,自定义类型
 	 * Specifies which types are eligible for component scanning.
 	 * <p>Further narrows the set of candidate components from everything in {@link #basePackages}
 	 * to everything in the base packages that matches the given filter or filters.
 	 * <p>Note that these filters will be applied in addition to the default filters, if specified.
 	 * Any type under the specified base packages which matches a given filter will be included,
 	 * even if it does not match the default filters (i.e. is not annotated with {@code @Component}).
+	 *
 	 * @see #resourcePattern()
 	 * @see #useDefaultFilters()
 	 */
 	Filter[] includeFilters() default {};
 
 	/**
+	 * 排除某些过来器扫描到的类
 	 * Specifies which types are not eligible for component scanning.
+	 *
 	 * @see #resourcePattern
 	 */
 	Filter[] excludeFilters() default {};
 
 	/**
+	 * 扫描到的类是都开启懒加载 ，默认是不开启的
 	 * Specify whether scanned beans should be registered for lazy initialization.
 	 * <p>Default is {@code false}; switch this to {@code true} when desired.
+	 *
 	 * @since 4.1
 	 */
 	boolean lazyInit() default false;
@@ -164,6 +186,7 @@ public @interface ComponentScan {
 		/**
 		 * The type of filter to use.
 		 * <p>Default is {@link FilterType#ANNOTATION}.
+		 *
 		 * @see #classes
 		 * @see #pattern
 		 */
@@ -171,6 +194,7 @@ public @interface ComponentScan {
 
 		/**
 		 * Alias for {@link #classes}.
+		 *
 		 * @see #classes
 		 */
 		@AliasFor("classes")
@@ -202,9 +226,10 @@ public @interface ComponentScan {
 		 * </ul>
 		 * <p>Specifying zero classes is permitted but will have no effect on component
 		 * scanning.
-		 * @since 4.2
+		 *
 		 * @see #value
 		 * @see #type
+		 * @since 4.2
 		 */
 		@AliasFor("value")
 		Class<?>[] classes() default {};
@@ -216,6 +241,7 @@ public @interface ComponentScan {
 		 * this is an AspectJ type pattern expression. If {@link #type} is
 		 * set to {@link FilterType#REGEX REGEX}, this is a regex pattern
 		 * for the fully-qualified class names to match.
+		 *
 		 * @see #type
 		 * @see #classes
 		 */

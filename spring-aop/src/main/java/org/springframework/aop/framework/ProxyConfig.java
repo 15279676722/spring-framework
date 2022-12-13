@@ -27,6 +27,9 @@ import org.springframework.util.Assert;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see AdvisedSupport
+ *
+ * 设计模式--状态模式
+ * 里面由 proxyTargetClass exposeProxy 等状态信息用来影响后面的一些行为
  */
 public class ProxyConfig implements Serializable {
 
@@ -42,6 +45,9 @@ public class ProxyConfig implements Serializable {
 
 	boolean opaque = false;
 
+	/**
+	 * 是否暴露对象到上下文中去
+	 * */
 	boolean exposeProxy = false;
 
 	private boolean frozen = false;

@@ -31,6 +31,7 @@ import org.springframework.util.ClassUtils;
  * @author Juergen Hoeller
  * @author Rob Harrop
  * @since 14.03.2003
+ * 设计模式--工厂方法模式
  */
 @SuppressWarnings("serial")
 public class ProxyFactory extends ProxyCreatorSupport {

@@ -307,16 +307,18 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 					logger.debug("Bean definition has already been processed as a configuration class: " + beanDef);
 				}
 			}
+			//校验是否是配置类
 			else if (ConfigurationClassUtils.checkConfigurationClassCandidate(beanDef, this.metadataReaderFactory)) {
 				configCandidates.add(new BeanDefinitionHolder(beanDef, beanName));
 			}
 		}
 
 		// Return immediately if no @Configuration classes were found
+		// 如果beanFactory的beanDefinition中没有配置类 return
 		if (configCandidates.isEmpty()) {
 			return;
 		}
-
+        //排序
 		// Sort by previously determined @Order value, if applicable
 		configCandidates.sort((bd1, bd2) -> {
 			int i1 = ConfigurationClassUtils.getOrder(bd1.getBeanDefinition());
@@ -325,10 +327,15 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		});
 
 		// Detect any custom bean name generation strategy supplied through the enclosing application context
+		// 当前 BeanFactory 是不是支持单例bean的注册，如果支持则设置一个 BeanNameGenerator
+		// 用来在扫描 @Component 和 @Import 某个Bean时取名字
 		SingletonBeanRegistry sbr = null;
 		if (registry instanceof SingletonBeanRegistry) {
 			sbr = (SingletonBeanRegistry) registry;
+			// localBeanNameGeneratorSet 默认为 false
 			if (!this.localBeanNameGeneratorSet) {
+				// 程序可以指定一个beanName生成器 applicationContext.setBeanNameGenerator()
+				// 不指定则使用默认的 ConfigurationBeanNameGenerator
 				BeanNameGenerator generator = (BeanNameGenerator) sbr.getSingleton(
 						AnnotationConfigUtils.CONFIGURATION_BEAN_NAME_GENERATOR);
 				if (generator != null) {
@@ -341,7 +348,8 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		if (this.environment == null) {
 			this.environment = new StandardEnvironment();
 		}
-
+        //解析每一个配置类
+		// 配置 bean 解析器，解析器里存在 registry，所以在解析的过程中可以往 registry 中添加 BeanDefinition
 		// Parse each @Configuration class
 		ConfigurationClassParser parser = new ConfigurationClassParser(
 				this.metadataReaderFactory, this.problemReporter, this.environment,
@@ -351,6 +359,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		Set<ConfigurationClass> alreadyParsed = new HashSet<>(configCandidates.size());
 		do {
 			StartupStep processConfig = this.applicationStartup.start("spring.context.config-classes.parse");
+			//解析配置类
 			parser.parse(candidates);
 			parser.validate();
 

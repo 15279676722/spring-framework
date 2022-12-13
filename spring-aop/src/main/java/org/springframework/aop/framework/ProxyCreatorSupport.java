@@ -28,6 +28,8 @@ import org.springframework.util.Assert;
  * @author Juergen Hoeller
  * @since 2.0.3
  * @see #createAopProxy()
+ * 设计模式--观察者模式
+ * listeners 发送通知消息
  */
 @SuppressWarnings("serial")
 public class ProxyCreatorSupport extends AdvisedSupport {

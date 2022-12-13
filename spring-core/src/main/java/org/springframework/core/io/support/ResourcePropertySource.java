@@ -54,6 +54,7 @@ public class ResourcePropertySource extends PropertiesPropertySource {
 	 * loaded from the given encoded resource.
 	 */
 	public ResourcePropertySource(String name, EncodedResource resource) throws IOException {
+		//loadProperties 加载里面的属性值
 		super(name, PropertiesLoaderUtils.loadProperties(resource));
 		this.resourceName = getNameForResource(resource.getResource());
 	}

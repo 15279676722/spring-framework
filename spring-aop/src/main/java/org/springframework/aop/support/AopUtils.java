@@ -64,6 +64,7 @@ public abstract class AopUtils {
 	 * @param object the object to check
 	 * @see #isJdkDynamicProxy
 	 * @see #isCglibProxy
+	 * 判断对象是否为代理对象
 	 */
 	public static boolean isAopProxy(@Nullable Object object) {
 		return (object instanceof SpringProxy && (Proxy.isProxyClass(object.getClass()) ||
@@ -77,6 +78,7 @@ public abstract class AopUtils {
 	 * given object is an instance of {@link SpringProxy}.
 	 * @param object the object to check
 	 * @see java.lang.reflect.Proxy#isProxyClass
+	 * 判断对象是否为Jdk动态代理对象
 	 */
 	public static boolean isJdkDynamicProxy(@Nullable Object object) {
 		return (object instanceof SpringProxy && Proxy.isProxyClass(object.getClass()));
@@ -89,6 +91,7 @@ public abstract class AopUtils {
 	 * the given object is an instance of {@link SpringProxy}.
 	 * @param object the object to check
 	 * @see ClassUtils#isCglibProxy(Object)
+	 * 判断对象是否为CGLIB代理对象
 	 */
 	public static boolean isCglibProxy(@Nullable Object object) {
 		return (object instanceof SpringProxy &&
@@ -103,6 +106,7 @@ public abstract class AopUtils {
 	 * never {@code null})
 	 * @see org.springframework.aop.TargetClassAware#getTargetClass()
 	 * @see org.springframework.aop.framework.AopProxyUtils#ultimateTargetClass(Object)
+	 * 从对象中获取目标类型
 	 */
 	public static Class<?> getTargetClass(Object candidate) {
 		Assert.notNull(candidate, "Candidate object must not be null");
@@ -127,6 +131,7 @@ public abstract class AopUtils {
 	 * target type (typically due to a proxy mismatch)
 	 * @since 4.3
 	 * @see MethodIntrospector#selectInvocableMethod(Method, Class)
+	 *
 	 */
 	public static Method selectInvocableMethod(Method method, @Nullable Class<?> targetType) {
 		if (targetType == null) {
@@ -338,6 +343,7 @@ public abstract class AopUtils {
 	 * @return the invocation result, if any
 	 * @throws Throwable if thrown by the target method
 	 * @throws org.springframework.aop.AopInvocationException in case of a reflection error
+	 * 使用java反射来调用Joinpoint(目标方法)
 	 */
 	@Nullable
 	public static Object invokeJoinpointUsingReflection(@Nullable Object target, Method method, Object[] args)

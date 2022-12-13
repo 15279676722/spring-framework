@@ -43,6 +43,9 @@ import org.springframework.lang.Nullable;
  * @author Rod Johnson
  * @author Adrian Colyer
  * @since 2.0.3
+ *
+ * 设计模式--责任连模式
+ * 多个Advisor对应多个interceptor链 依次执行
  */
 @SuppressWarnings("serial")
 public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializable {
