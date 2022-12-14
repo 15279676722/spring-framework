@@ -332,15 +332,18 @@ class ConfigurationClassParser {
 		}
 
 		// Process individual @Bean methods
+		// 开始解析带@Bean 的方法
 		Set<MethodMetadata> beanMethods = retrieveBeanMethodMetadata(sourceClass);
 		for (MethodMetadata methodMetadata : beanMethods) {
 			configClass.addBeanMethod(new BeanMethod(methodMetadata, configClass));
 		}
 
 		// Process default methods on interfaces
+		// 处理接口上的default 带@Bean的方法
 		processInterfaces(configClass, sourceClass);
 
 		// Process superclass, if any
+		// 如果有superClass return 回去 外面有层递归调用
 		if (sourceClass.getMetadata().hasSuperClass()) {
 			String superclass = sourceClass.getMetadata().getSuperClassName();
 			if (superclass != null && !superclass.startsWith("java") &&

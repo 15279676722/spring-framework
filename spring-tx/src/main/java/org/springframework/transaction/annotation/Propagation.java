@@ -22,7 +22,7 @@ import org.springframework.transaction.TransactionDefinition;
  * Enumeration that represents transaction propagation behaviors for use
  * with the {@link Transactional} annotation, corresponding to the
  * {@link TransactionDefinition} interface.
- *
+ * 事务隔离级别
  * @author Colin Sampaleanu
  * @author Juergen Hoeller
  * @since 1.2
@@ -33,6 +33,8 @@ public enum Propagation {
 	 * Support a current transaction, create a new one if none exists.
 	 * Analogous to EJB transaction attribute of the same name.
 	 * <p>This is the default setting of a transaction annotation.
+	 *   如果当前存在事务就加入 不存在就新建一个事务
+	 * 	 这样保证整个执行过程都是同一个事务只要一个方法回滚，整个事务均回滚。
 	 */
 	REQUIRED(TransactionDefinition.PROPAGATION_REQUIRED),
 
@@ -64,6 +66,17 @@ public enum Propagation {
 	 * which requires the {@code jakarta.transaction.TransactionManager} to be
 	 * made available to it (which is server-specific in standard Jakarta EE).
 	 * @see org.springframework.transaction.jta.JtaTransactionManager#setTransactionManager
+	 *
+	 * 创建一个新的事务 如果当前存在事务 则把当前事务挂起
+	 * 也就是说不管外部方法是否开启事务，Propagation.REQUIRES_NEW修饰的内部方法会新开启自己的事务，
+	 * 且开启的事务相互独立，互不干扰。
+	 * 比如 a 方法调用 b方法
+	 * a设置的 REQUIRED
+	 * b设置的 REQUIRES_NEW
+	 *
+	 * 如果 a发送异常进行事务回滚的话 并不影响 b的事务
+	 * 但是 如果b事务进行回滚 并且没有捕获异常 被a方法捕获到了异常也会引起a事务的回滚
+	 *
 	 */
 	REQUIRES_NEW(TransactionDefinition.PROPAGATION_REQUIRES_NEW),
 

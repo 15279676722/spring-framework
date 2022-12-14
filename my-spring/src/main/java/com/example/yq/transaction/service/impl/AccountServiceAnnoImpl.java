@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  */
 @Service
-@Transactional(value = "transactionManager", rollbackFor = Exception.class)
+@Transactional( rollbackFor = Exception.class)
 public class AccountServiceAnnoImpl implements AccountService {
 	@Autowired
 	AccountDao accountDao;
@@ -30,8 +30,7 @@ public class AccountServiceAnnoImpl implements AccountService {
 		//模拟出现异常
 //		int a=5/0;
 		//IOException不会进行事务的回滚 只会回滚RunTimeException和Error 需要回滚可以加上参数rollbackFor
-//		throw new IOException();
-		return balance;
+		throw new IOException();
 	}
 
 }

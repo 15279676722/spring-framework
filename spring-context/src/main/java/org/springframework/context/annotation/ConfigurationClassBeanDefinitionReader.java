@@ -144,15 +144,18 @@ class ConfigurationClassBeanDefinitionReader {
 			this.importRegistry.removeImportingClass(configClass.getMetadata().getClassName());
 			return;
 		}
-
+		// 如果这是一个通过import机制被导入进来的配置类，将它本身作为一个bean定义注册到容器
 		if (configClass.isImported()) {
 			registerBeanDefinitionForImportedConfigurationClass(configClass);
 		}
+		// 现在把配置类里面@Bean注解的方法作为bean定义注册到容器
 		for (BeanMethod beanMethod : configClass.getBeanMethods()) {
 			loadBeanDefinitionsForBeanMethod(beanMethod);
 		}
-
+        // 注册@ImportResource
+		// 比如导入的xml或者groovy bean定义文件
 		loadBeanDefinitionsFromImportedResources(configClass.getImportedResources());
+		// 从配置类导入的ImportBeanDefinitionRegistrar中获取bean定义信息并注册到容器
 		loadBeanDefinitionsFromRegistrars(configClass.getImportBeanDefinitionRegistrars());
 	}
 

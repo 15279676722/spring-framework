@@ -279,7 +279,8 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 
 			// Switch to manual commit if necessary. This is very expensive in some JDBC drivers,
 			// so we don't want to do it unnecessarily (for example if we've explicitly
-			// configured the connection pool to set it already). 这里就是关闭自动提交， 就是开启事务了，由Spring 控制提交
+			// configured the connection pool to set it already).
+			// 这里就是关闭自动提交， 就是开启事务了，由Spring 控制提交
 			if (con.getAutoCommit()) {
 				txObject.setMustRestoreAutoCommit(true);
 				if (logger.isDebugEnabled()) {
@@ -289,7 +290,8 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 			}
             // 设置只读事务,就是这事务内没有新增，修改，删除操作只有查询操作，不需要数据库锁等操作，减少数据库压力，还有就是其他事务提交的数据，在"SET TRANSACTION READ ONLY" 是看不到的
 			prepareTransactionalConnection(con, definition);
-			txObject.getConnectionHolder().setTransactionActive(true);			// 配置 判断当前线程是否有事务的 标志
+			// 配置 判断当前线程是否有事务的 标志
+			txObject.getConnectionHolder().setTransactionActive(true);
 			// 设置timeout
 			int timeout = determineTimeout(definition);
 			if (timeout != TransactionDefinition.TIMEOUT_DEFAULT) {
