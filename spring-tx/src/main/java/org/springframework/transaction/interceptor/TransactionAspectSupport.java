@@ -393,6 +393,10 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 			TransactionInfo txInfo = createTransactionIfNecessary(ptm, txAttr, joinpointIdentification);
 
 			Object retVal;
+			//这个相当于是一个around advice
+			// invocation.proceedWithInvocation() 进行方法的执行
+			// completeTransactionAfterThrowing(txInfo, ex); 进行异常的回滚 或者 非拦截的异常的事务的提交
+			// cleanupTransactionInfo 还原线程状态
 			try {
 				// This is an around advice: Invoke the next interceptor in the chain.
 				// This will normally result in a target object being invoked.
@@ -599,6 +603,7 @@ public abstract class TransactionAspectSupport implements BeanFactoryAware, Init
 		TransactionStatus status = null;
 		if (txAttr != null) {
 			if (tm != null) {
+				//获取事务
 				status = tm.getTransaction(txAttr);
 			} else {
 				if (logger.isDebugEnabled()) {

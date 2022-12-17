@@ -53,6 +53,9 @@ public class DefaultTransactionStatus extends AbstractTransactionStatus {
 	@Nullable
 	private final Object transaction;
 
+	/**
+	 * 是否是一个新事务
+	 * */
 	private final boolean newTransaction;
 
 	private final boolean newSynchronization;
