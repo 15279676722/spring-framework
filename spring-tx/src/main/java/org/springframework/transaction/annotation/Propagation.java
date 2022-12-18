@@ -48,12 +48,14 @@ public enum Propagation {
 	 * will be shared for the entire specified scope. Note that this depends on
 	 * the actual synchronization configuration of the transaction manager.
 	 * @see org.springframework.transaction.support.AbstractPlatformTransactionManager#setTransactionSynchronization
+	 * 支持当前事务，如果当前没有事务，就以非事务方式执行。
 	 */
 	SUPPORTS(TransactionDefinition.PROPAGATION_SUPPORTS),
 
 	/**
 	 * Support a current transaction, throw an exception if none exists.
 	 * Analogous to EJB transaction attribute of the same name.
+	 * 支持当前事务，如果当前没有事务，就抛出异常。
 	 */
 	MANDATORY(TransactionDefinition.PROPAGATION_MANDATORY),
 
@@ -89,12 +91,15 @@ public enum Propagation {
 	 * which requires the {@code jakarta.transaction.TransactionManager} to be
 	 * made available to it (which is server-specific in standard Jakarta EE).
 	 * @see org.springframework.transaction.jta.JtaTransactionManager#setTransactionManager
+	 *
+	 * 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。
 	 */
 	NOT_SUPPORTED(TransactionDefinition.PROPAGATION_NOT_SUPPORTED),
 
 	/**
 	 * Execute non-transactionally, throw an exception if a transaction exists.
 	 * Analogous to EJB transaction attribute of the same name.
+	 * 以非事务方式执行，如果当前存在事务，则抛出异常。
 	 */
 	NEVER(TransactionDefinition.PROPAGATION_NEVER),
 
@@ -106,6 +111,8 @@ public enum Propagation {
 	 * DataSourceTransactionManager. Some JTA providers might support nested
 	 * transactions as well.
 	 * @see org.springframework.jdbc.datasource.DataSourceTransactionManager
+	 *
+	 * 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则进行与PROPAGATION_REQUIRED类似的操作。
 	 */
 	NESTED(TransactionDefinition.PROPAGATION_NESTED);
 

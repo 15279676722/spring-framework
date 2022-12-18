@@ -93,7 +93,7 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 	 * @throws org.springframework.beans.BeansException in case of errors
 	 * @see #postProcessBeforeInstantiation
 	 *
-	 *在目标对象实例化之后调用，这个时候对象已经被实例化，
+	 * 在目标对象实例化之后调用，这个时候对象已经被实例化，
 	 * 但是该实例的属性还未被设置，都是null。
 	 * 因为它的返回值是决定要不要调用postProcessPropertyValues方法的其中一个因素（因为还有一个因素是mbd.getDependencyCheck()）；
 	 * 如果该方法返回false,并且不需要check，那么postProcessPropertyValues就会被忽略不执行；

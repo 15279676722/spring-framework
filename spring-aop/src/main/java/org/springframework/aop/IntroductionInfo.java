@@ -24,6 +24,10 @@ package org.springframework.aop;
  * it may be used as an introduction without an {@link IntroductionAdvisor}.
  * In this case, the advice is self-describing, providing not only the
  * necessary behavior, but describing the interfaces it introduces.
+ * 通过该接口的getInterfaces()方法可以对其代理的实现接口进行扩展
+ * 即使代理对象没有实现对应的接口。
+ * 建议 getInterfaces()方法 返回的接口为 其代理对象的子集。 而不是由这个去扩展
+ * 因为这个涉及到接口所以多数是Jdk动态代理
  *
  * @author Rod Johnson
  * @since 1.1.1

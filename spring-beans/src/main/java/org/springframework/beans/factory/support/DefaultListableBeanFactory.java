@@ -957,6 +957,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			if (singletonInstance instanceof SmartInitializingSingleton smartSingleton) {
 				StartupStep smartInitialize = this.getApplicationStartup().start("spring.beans.smart-initialize")
 						.tag("beanName", beanName);
+				//单例初始化完成 后置增强处理
 				smartSingleton.afterSingletonsInstantiated();
 				smartInitialize.end();
 			}
