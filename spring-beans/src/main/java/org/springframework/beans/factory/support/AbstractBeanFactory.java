@@ -1518,6 +1518,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			throws CannotLoadBeanClassException {
 
 		try {
+			// 当前beanDefinition是否有beanClass
 			if (mbd.hasBeanClass()) {
 				return mbd.getBeanClass();
 			}
@@ -1535,6 +1536,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	private Class<?> doResolveBeanClass(RootBeanDefinition mbd, Class<?>... typesToMatch)
 			throws ClassNotFoundException {
 
+		//获取当前beanFactory的beanClassLoader
 		ClassLoader beanClassLoader = getBeanClassLoader();
 		ClassLoader dynamicLoader = beanClassLoader;
 		boolean freshResolve = false;
@@ -1553,7 +1555,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 			}
 		}
-        //
+        // 获得beanClassName
 		String className = mbd.getBeanClassName();
 		if (className != null) {
 			//评估包含在 bean 定义中的给定字符串，可能将其解析为表达式 可能包含#{}

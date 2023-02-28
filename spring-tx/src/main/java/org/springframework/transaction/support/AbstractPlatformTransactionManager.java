@@ -419,12 +419,12 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 	private TransactionStatus handleExistingTransaction(
 			TransactionDefinition definition, Object transaction, boolean debugEnabled)
 			throws TransactionException {
-        // TODO
+        // 以非事务方式执行，如果当前存在事务，则抛出异常。
 		if (definition.getPropagationBehavior() == TransactionDefinition.PROPAGATION_NEVER) {
 			throw new IllegalTransactionStateException(
 					"Existing transaction found for transaction marked with propagation 'never'");
 		}
-        // TODO
+        // 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。
 		if (definition.getPropagationBehavior() == TransactionDefinition.PROPAGATION_NOT_SUPPORTED) {
 			if (debugEnabled) {
 				logger.debug("Suspending current transaction");
@@ -505,6 +505,8 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 			}
 		}
 		boolean newSynchronization = (getTransactionSynchronization() != SYNCHRONIZATION_NEVER);
+		//其余三种事务传播级别都是支持当前事务 去进行操作
+		//因为进入这个方法的时候当前必定有一个事务 所以对于PROPAGATION_REQUIRED PROPAGATION_SUPPORTS  PROPAGATION_MANDATORY 这三种情况来说都是一样的
 		return prepareTransactionStatus(definition, transaction, false, newSynchronization, debugEnabled, null);
 	}
 
@@ -867,6 +869,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 							if (status.isDebug()) {
 								logger.debug("Participating transaction failed - marking existing transaction as rollback-only");
 							}
+							//事物对象设置为只可以回滚，不可提交
 							doSetRollbackOnly(status);
 						}
 						else {
