@@ -28,4 +28,8 @@ public class LookUpTest {
 		LookUpBean lookUpBean =(LookUpBean) context.getBean("lookUpBean");
 		lookUpBean.print();
 	}
+
+	public static void main(String[] args) {
+		System.out.println("111");
+	}
 }

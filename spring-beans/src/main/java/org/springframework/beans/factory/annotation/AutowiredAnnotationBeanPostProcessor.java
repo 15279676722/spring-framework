@@ -317,12 +317,7 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 	@Nullable
 	public Constructor<?>[] determineCandidateConstructors(Class<?> beanClass, final String beanName)
 			throws BeanCreationException {
-
-		// Let's check for lookup methods here...
-		/**
-		 * 处理含有@Lookup注解的方法
-		 * 如果集合中没有BeanName，则走一遍Bean中所有的方法，过滤是否含有Lookup方法
-		 */
+		//处理含有@Lookup注解的方法
 		if (!this.lookupMethodsChecked.contains(beanName)) {
 			// 判断该类是否有LookUp 注解
 			if (AnnotationUtils.isCandidateClass(beanClass, Lookup.class)) {

@@ -1,8 +1,6 @@
 package com.example.yq.ioc.aware;
 
-import com.example.yq.ioc.bean.UserService;
 import com.example.yq.ioc.config.AwareBeanConfig;
-import com.example.yq.ioc.config.BeanConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

@@ -1,6 +1,8 @@
 package com.example.yq.ioc.config;
 
 
+import com.example.yq.ioc.bean.UserService;
+import com.example.yq.ioc.beanfactory.MyBeanFactoryPostProcessor;
 import com.example.yq.ioc.service.SetterBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -57,6 +59,16 @@ public class AnnotationConfig {
 		SetterBean setterBean = new SetterBean();
 		setterBean.setService(serviceB);
 		return setterBean;
+	}
+
+	@Bean(initMethod = "initMethod",destroyMethod = "destroyMethod")
+	public UserService userService(){
+		return new UserService("libai");
+	}
+
+	@Bean
+	public MyBeanFactoryPostProcessor myBeanFactoryPostProcessor(){
+		return new MyBeanFactoryPostProcessor();
 	}
 
 
