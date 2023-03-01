@@ -279,7 +279,8 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 
 	@Override
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
-		findInjectionMetadata(beanName, beanType, beanDefinition);//查找注入元数据 @Autowired不能作用static变量
+		//查找注入元数据 @Autowired不能作用static变量
+		findInjectionMetadata(beanName, beanType, beanDefinition);
 	}
 
 	@Override
@@ -561,7 +562,8 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 	}
 
 	private InjectionMetadata buildAutowiringMetadata(Class<?> clazz) {
-		if (!AnnotationUtils.isCandidateClass(clazz, this.autowiredAnnotationTypes)) {//判断bean是否包含 @Autowired 和@Value注解
+		//判断bean是否包含 @Autowired 和@Value注解
+		if (!AnnotationUtils.isCandidateClass(clazz, this.autowiredAnnotationTypes)) {
 			return InjectionMetadata.EMPTY;
 		}
 

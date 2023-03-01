@@ -1,10 +1,5 @@
 package com.example.yq.aop.simple;
 
-import com.example.yq.aop.config.AspectJTest2;
-import com.example.yq.aop.config.LazyInitTargetSourceCreator;
-import com.example.yq.aop.pointcut.Student;
-import com.example.yq.aop.pointcut.StudentAutowireMode;
-import com.example.yq.aop.pointcut.StudentB;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
