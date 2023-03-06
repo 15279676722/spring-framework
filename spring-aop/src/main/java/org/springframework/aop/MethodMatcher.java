@@ -89,6 +89,8 @@ public interface MethodMatcher {
 	 * @param args arguments to the method
 	 * @return whether there's a runtime match
 	 * @see MethodMatcher#matches(Method, Class)
+	 *
+	 * IntroductionAwareMethodMatcher 的类型会调用这个方法匹配
 	 */
 	boolean matches(Method method, Class<?> targetClass, Object... args);
 
