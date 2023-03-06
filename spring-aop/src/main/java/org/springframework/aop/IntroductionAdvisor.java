@@ -24,7 +24,7 @@ package org.springframework.aop;
  *
  * <p>Introduction is the implementation of additional interfaces
  * (not implemented by a target) via AOP advice.
- *
+ * TODO
  * @author Rod Johnson
  * @since 04.04.2003
  * @see IntroductionInterceptor
