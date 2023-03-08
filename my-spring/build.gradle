@@ -15,6 +15,7 @@ dependencies {
     implementation(project(":spring-tx"))
     implementation(project(":spring-jdbc"))
     implementation(project(":spring-web"))
+    implementation(project(":spring-webmvc:"))
     testImplementation("org.aspectj:aspectjweaver")
     implementation("org.aspectj:aspectjweaver")
 
