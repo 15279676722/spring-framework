@@ -262,7 +262,9 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 				logger.trace("Could not resolve type for bean '" + beanName + "'", ex);
 			}
 		}
+		// isHandler判断是否有@Controller
 		if (beanType != null && isHandler(beanType)) {
+			//解析 带有@Controller 的bean
 			detectHandlerMethods(beanName);
 		}
 	}
@@ -296,6 +298,7 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 			}
 			methods.forEach((method, mapping) -> {
 				Method invocableMethod = AopUtils.selectInvocableMethod(method, userType);
+				// 注册 mapping信息
 				registerHandlerMethod(handler, invocableMethod, mapping);
 			});
 		}
