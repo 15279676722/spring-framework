@@ -1,11 +1,10 @@
 package com.example.yq.ioc.scope;
 
-import com.example.yq.ioc.initproperty.MyClassPathXmlApplicationContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.request.RequestScope;
-
+import com.example.yq.ioc.initproperty.MyClassPathXmlApplicationContext;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -26,7 +25,7 @@ public class ScopeTest {
 	@Test
 	public void prototypeTest(){
 		ApplicationContext context =
-				new MyClassPathXmlApplicationContext("beans_scope.xml");
+				new ClassPathXmlApplicationContext("beans_scope.xml");
 		PrototypeBean prototypeBean = context.getBean(PrototypeBean.class);
 
 	}

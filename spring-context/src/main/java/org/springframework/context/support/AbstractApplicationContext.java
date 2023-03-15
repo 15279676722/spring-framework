@@ -467,6 +467,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 
 		// Multicast right now if possible - or lazily once the multicaster is initialized
+		// 事件广播器没有初始化完成的话作为早期事件进行存储
 		if (this.earlyApplicationEvents != null) {
 			this.earlyApplicationEvents.add(applicationEvent);
 		} else {
@@ -614,7 +615,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		synchronized (this.startupShutdownMonitor) {
 			StartupStep contextRefresh = this.applicationStartup.start("spring.context.refresh");
 
-			// 准备此上下文以进行刷新
+			// 准备进行上下文刷新
 			/**
 			 * 1.设置容器的启动时间
 			 * 2.设置活跃状态为true
@@ -665,7 +666,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				// 这里需要知道 BeanFactoryPostProcessor 这个知识点，Bean 如果实现了此接口，
 				// 那么在容器初始化以后，Spring 会负责调用里面的 postProcessBeanFactory 方法。】
 
-				// 这里是提供给子类的扩展点，到这里的时候，所有的 Bean 都加载、注册完成了，但是都还没有初始化
+				// 这里是提供给子类的扩展点，到这里的时候，所有的 BeanDefinition 都加载、注册完成了，但是都还没有初始化
 				// 具体的子类可以在这步的时候添加一些特殊的 BeanFactoryPostProcessor 的实现类或做点什么事
 				postProcessBeanFactory(beanFactory);
 
@@ -805,7 +806,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// Allow for the collection of early ApplicationEvents,
 		// to be published once the multicaster is available...
-		// 初始化多播器
+		// 收集早期事件 multicaster 初始化完成后会统一去发布事件
+		// 事件发布完成后 会把改属性设置为 null
+		// 如果是早期事件 判断earlyApplicationEvents 是否为null 不为null 则将该事件加入到earlyApplicationEvents中
+		// org.springframework.context.support.AbstractApplicationContext.publishEvent()
 		this.earlyApplicationEvents = new LinkedHashSet<>();
 	}
 
@@ -980,7 +984,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 *
 	 * @see org.springframework.context.event.SimpleApplicationEventMulticaster
 	 */
-	protected void initApplicationEventMulticaster() {
+	protected void  initApplicationEventMulticaster() {
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
 		if (beanFactory.containsLocalBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME)) {
 			this.applicationEventMulticaster =
@@ -1046,10 +1050,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void registerListeners() {
 		// Register statically specified listeners first.
+		// 添加监听器对象
 		for (ApplicationListener<?> listener : getApplicationListeners()) {
 			getApplicationEventMulticaster().addApplicationListener(listener);
 		}
-
+		// 添加监听器beanName
 		// Do not initialize FactoryBeans here: We need to leave all regular beans
 		// uninitialized to let post-processors apply to them!
 		String[] listenerBeanNames = getBeanNamesForType(ApplicationListener.class, true, false);

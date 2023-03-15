@@ -26,4 +26,5 @@ dependencies {
 	testFixturesApi("org.junit.jupiter:junit-jupiter-api")
 	testFixturesImplementation("org.assertj:assertj-core")
 	testFixturesImplementation("org.mockito:mockito-core")
+	implementation 'net.sf.ehcache:ehcache:2.8.3'
 }
